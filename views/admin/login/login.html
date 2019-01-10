@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>h1ml后台管理</title>
+    <link rel="shortcut icon" href="/static/admin/img/logo.jpg" type="image/x-icon">
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/static/admin/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/static/admin/css/weather-icons.min.css" rel="stylesheet" />
+    <link href="/static/admin/css/beyond.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="login-container">
+    <div class="loginbox bg-white">
+        <div class="loginbox-title">后台登录</div>
+
+        <div class="loginbox-or">
+            <div class="or-line"></div>
+        </div>
+        <form>
+            <div class="loginbox-textbox">
+                <input type="text" class="form-control" placeholder="用户名" name="user_name"/>
+            </div>
+            <div class="loginbox-textbox">
+                <input type="password" class="form-control" placeholder="密码" name="pass_word"/>
+            </div>
+            <div class="loginbox-textbox">
+                <input type="text" class="form-control" placeholder="验证码" name="captcha"/><br>
+            </div>
+            <div class="loginbox-textbox">
+                {{ create_captcha }}
+            </div>
+            <div class="text-center">
+                <button class="btn btn-palegreen" id="admin_login">点击登录</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/static/admin/js/skins.min.js"></script>
+<!--Basic Scripts-->
+<script src="/static/admin/js/jquery.min.js"></script>
+<script src="/static/admin/js/bootstrap.min.js"></script>
+<script src="/static/admin/js/slimscroll/jquery.slimscroll.min.js"></script>
+<!--Beyond Scripts-->
+<script src="/static/admin/js/beyond.js"></script>
+<script src="/static/lib/layer/layer.js"></script>
+<script>
+    $(window).bind("load", function () {
+        /*Sets Themed Colors Based on Themes*/
+        themeprimary = getThemeColorFromCss('themeprimary');
+        themesecondary = getThemeColorFromCss('themesecondary');
+        themethirdcolor = getThemeColorFromCss('themethirdcolor');
+        themefourthcolor = getThemeColorFromCss('themefourthcolor');
+        themefifthcolor = getThemeColorFromCss('themefifthcolor');
+
+        $(function () {
+            $("#admin_login").click(function () {
+                $.ajax({
+                    url: "/admin/login/login",
+                    type: "post",
+                    data: $("form").serialize(),
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code == 0) {
+                            layer.msg(data.msg, {
+                                icon: 6,
+                                time: 1000
+                            }, function () {
+                                if (data.url) {
+                                    location.href = data.url;
+                                }
+                            });
+                        } else {
+                            layer.open({
+                                icon: 5,
+                                anim: 6,
+                                title: "登录",
+                                content: data.msg
+                            })
+                        }
+                    },
+                    error:function () {
+                        layer.open({
+                            icon: 5,
+                            anim: 6,
+                            tilte: "登录",
+                            content: "网络错误！"
+                        });
+                    }
+                });
+                return false;
+            });
+        })
+    });
+</script>
+</body>
+<!--  /Body -->
+</html>
