@@ -21,11 +21,14 @@ func init() {
 	cpt.StdWidth = 100
 	cpt.StdHeight = 40
 }
+
+// 显示登录页面
 // @router /admin/login/index [get]
-func (p *UserController) LoginIndex()  {
+func (p *UserController) LoginIndex() {
 	p.TplName = "admin/login/login.html"
 }
 
+// 登录
 // @router /admin/login/login [post]
 func (p *UserController) Login() {
 	// username
@@ -43,10 +46,14 @@ func (p *UserController) Login() {
 	}
 	// 登录成功
 	p.SetSession(SESSION_USER_KEY, user) // 存 session
-	p.Data["json"] = map[string]interface{}{
-		"code": 0,
-		"msg" : "登录成功",
-		"url" : "/admin/index",
-	}
-	p.ServeJSON()
+	p.ReturnJson("登录成功", "/admin/index") // 提示信息并跳转
+}
+
+// 登出
+// @router admin/login/logout [post]
+func (p *UserController) LoginOut() {
+	p.MustLogin()
+	// 清空session
+	p.DelSession(SESSION_USER_KEY)
+	p.ReturnJson("退出成功", "/admin/login/index")
 }
