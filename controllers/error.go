@@ -8,6 +8,7 @@ import (
 type ErrorController struct {
 	BaseController
 }
+
 // code,msg,reason
 func (c *ErrorController) Error404() {
 	c.TplName = "error/404.html"
@@ -17,6 +18,7 @@ func (c *ErrorController) Error404() {
 }
 
 func (c *ErrorController) Error500() {
+	c.Data["isIndex"] = false
 	c.TplName = "error/500.html"
 	err, ok := c.Data["error"].(error)
 	if !ok {
@@ -39,9 +41,9 @@ func (c *ErrorController) Error500() {
 	}
 }
 
-func (c *ErrorController) jsonError (serr syserrors.Error) {
+func (c *ErrorController) jsonError(serr syserrors.Error) {
 	c.Ctx.Output.Status = 200 //状态码改成200
-	c.Data["json"] = map[string]interface{} {
+	c.Data["json"] = map[string]interface{}{
 		"code": serr.Code(),
 		"msg":  serr.Error(),
 	}

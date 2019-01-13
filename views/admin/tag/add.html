@@ -1,0 +1,86 @@
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-home"></i>&nbsp;标签管理
+            </li>
+            <li>
+                标签添加
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Body -->
+    <div class="page-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="widget radius-bordered">
+                    <div class="widget-header bordered-bottom bordered-themeprimary">
+                        <span class="widget-caption">标签添加</span>
+                    </div>
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label no-padding-right">标签名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="name" placeholder="标签名称" name="name"/>
+                                    <p class="help-block">请输入标签名称</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-primary" id="tagAdd">添加</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+<script src="/static/admin/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#tagAdd").click(function () {
+            $.ajax({
+                url: "/admin/tag",
+                type: "post",
+                data: $("form").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 0) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 1000
+                        }, function () {
+                            if (data.url) {
+                                location.href = data.url;
+                            }
+                        });
+                    } else {
+                        layer.open({
+                            icon: 5,
+                            anim: 6,
+                            title: "标签",
+                            content: data.msg
+                        })
+                    }
+                },
+                error:function () {
+                    layer.open({
+                        icon: 5,
+                        anim: 6,
+                        title: "标签",
+                        content: "网络错误！"
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>

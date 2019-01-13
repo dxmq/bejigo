@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>后台管理</title>
+    <title>{{.PageTitle}}</title>
     <link rel="shortcut icon" href="/static/admin/img/logo.png" type="image/x-icon">
     <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/static/admin/css/font-awesome.min.css" rel="stylesheet" />
@@ -129,25 +129,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{:url('admin/cate/lst')}" class="menu-dropdown">
-                        <i class="menu-icon glyphicon glyphicon glyphicon-th-list"></i>
-                        <span class="menu-text">栏目管理</span>
-                        <i class="menu-expand"></i>
-                    </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="{:url('admin/cate/lst')}">
-                                <span class="menu-text">栏目列表</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/cate/add')}">
-                                <span class="menu-text">栏目添加</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
                     <a href="{:url('admin/article/lst')}" class="menu-dropdown">
                         <i class="menu-icon glyphicon glyphicon glyphicon-book"></i>
                         <span class="menu-text">文章管理</span>
@@ -174,12 +155,12 @@
                     </a>
                     <ul class="submenu">
                         <li>
-                            <a href="{:url('admin/label/lst')}">
+                            <a href="/admin/tag">
                                 <span class="menu-text">标签列表</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{:url('admin/label/add')}">
+                            <a href="/admin/tag/create">
                                 <span class="menu-text">标签添加</span>
                             </a>
                         </li>

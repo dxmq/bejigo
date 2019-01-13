@@ -43,6 +43,60 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+		beego.ControllerComments{
+			Method:           "TagStore",
+			Router:           `/admin/tag`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+		beego.ControllerComments{
+			Method:           "TagList",
+			Router:           `/admin/tag`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+		beego.ControllerComments{
+			Method:           "TagShow",
+			Router:           `/admin/tag/:id`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+		beego.ControllerComments{
+			Method:           "TagCreate",
+			Router:           `/admin/tag/create`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+		beego.ControllerComments{
+			Method:           "TagDelete",
+			Router:           `/admin/tag/delete`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+		beego.ControllerComments{
+			Method:           "TagEdit",
+			Router:           `/admin/tag/edit`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "LoginIndex",
