@@ -4,20 +4,20 @@
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
             <li class="active">
-                <i class="fa fa-home"></i>&nbsp;标签管理
+                <i class="fa fa-home"></i>&nbsp;分类管理
             </li>
-            <li>标签列表</li>
+            <li>分类列表</li>
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
     <!-- Page Body -->
     <div class="page-body">
-        <a href="/admin/tag/create" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;标签添加</a>
+        <a href="/admin/category/addindex" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;分类添加</a>
         <div class="row">
             <div class="col-xs-12">
                 <div class="widget">
                     <div class="widget-header">
-                        <span class="widget-caption">标签列表</span>
+                        <span class="widget-caption">分类列表</span>
                         <div class="widget-buttons">
                             <!-- 分页 -->
                         </div>
@@ -27,20 +27,20 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>标签名称</th>
+                                <th>分类名称</th>
                                 <th>添加时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {{range .tag}}
-                                <tr id="tag_tr_{{.ID}}">
+                            {{range .Category}}
+                                <tr id="category_tr_{{.ID}}">
                                     <td>{{.ID}}</td>
-                                    <td>{{.Name}}</td>
+                                    <td>{{.CategoryName}}</td>
                                     <td>{{date .CreatedAt "Y-m-d H:i:s"}}</td>
                                     <td>
-                                        <a href="/admin/tag/{{.ID}}" class="btn btn-azure btn-xs">编辑</a>
-                                        <a href="#" class="btn btn-danger btn-xs tag-del" dataid="{{.ID}}">删除</a>
+                                        <a href="/admin/category/editindex/{{.ID}}" class="btn btn-azure btn-xs">编辑</a>
+                                        <a href="#" class="btn btn-danger btn-xs category-del" dataid="{{.ID}}">删除</a>
                                     </td>
                                 </tr>
                             {{end}}
@@ -57,23 +57,22 @@
 <script src="/static/admin/js/jquery.min.js"></script>
 <script>
     $(function () {
-        $(".tag-del").click(function () {
+        $(".category-del").click(function () {
             var id = $(this).attr("dataid");
-            // 给个提示
             layer.confirm("确定要删除吗？", {
                 icon: 3,
-                title: "标签删除"
+                title: "分类删除"
             }, function (index) {
                 layer.close(index);
                 $.ajax({
-                    url: "/admin/tag/delete",
+                    url: "/admin/category/delete",
                     type: "post",
-                    data:  '{"id":"'+id +'"}',
+                    data: '{"id": "'+id+'"}',
                     dataType: "json",
                     success: function (data) {
-                        if (data.code == 0) {
-                            var is_del = $("#tag_tr_"+id).remove(); // 移除节点
-                            if (is_del) {
+                        if (data.code === 0) {
+                            var result = $("#category_tr_" + id).remove();
+                            if (result) {
                                 layer.msg(data.msg, {
                                     icon: 6,
                                     time: 1000
@@ -81,18 +80,18 @@
                             }
                         } else {
                             layer.open({
-                                icon: 5,
-                                anim: 6,
-                                title: "标签删除",
-                                content: data.msg
+                               icon: 5,
+                               anim: 6,
+                               title: "删除分类",
+                               content: data.msg
                             });
                         }
                     }, error: function () {
                         layer.open({
-                            icon: 5,
-                            anim: 6,
-                            title: "标签",
-                            content: "网络错误！"
+                           icon: 5,
+                           anim: 6,
+                           title: "删除分类",
+                           content: "网络错误！"
                         });
                     }
                 });

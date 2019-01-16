@@ -29,7 +29,7 @@ func GetTagById(id string) (tag Tag, err error) {
 	return tag, db.Where("id = ?", id).Find(&tag).Error
 }
 
-// 软删除标签
+// 强删除标签
 func DeleteTagById(id string) error {
 	return db.Unscoped().Where("id = ?", id).Delete(&Tag{}).Error
 }

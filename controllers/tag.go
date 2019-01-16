@@ -4,7 +4,6 @@ import (
 	"bego/models"
 	"bego/syserrors"
 	"encoding/json"
-	"github.com/astaxie/beego"
 )
 
 type TagController struct {
@@ -80,7 +79,6 @@ func (p *TagController) TagShow() {
 // @router /admin/tag/edit [post]
 func (p *TagController) TagEdit() {
 	p.MustLogin()
-	beego.Info("123")
 	name := p.GetMustString("name", "标签不能为空！")
 	name = p.GetAllowMaxString("name", "长度在0-20个字符之间！", 20)
 	id := p.GetString("ID")
@@ -92,7 +90,7 @@ func (p *TagController) TagEdit() {
 }
 
 /**
- * 软删除标签
+ * 强删除标签
  */
 // @router /admin/tag/delete [post]
 func (p *TagController) TagDelete() {
