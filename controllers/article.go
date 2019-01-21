@@ -50,8 +50,8 @@ func (p *ArticleController) ArticleAddIndex() {
 func (p *ArticleController) ArticleCreate() {
 	p.MustLogin()
 	// 验证并接收表单数据
-	title := p.GetMustAndInlen("title", "标题不能为空！", "标题在0-20个字符之间！", 20)
-	author := p.GetMustAndInlen("author", "作者不能为空！", "作者在0-15个字符之间！", 15)
+	title := p.GetMustAndInlen("title", "标题不能为空！", "标题在0-40个字符之间！", 40)
+	author := p.GetMustAndInlen("author", "作者不能为空！", "作者在0-20个字符之间！", 20)
 
 	// 获取分类
 	categoryId := p.GetMustString("category_id", "分类不能为空！")
@@ -59,26 +59,24 @@ func (p *ArticleController) ArticleCreate() {
 	// 获取标签id数组
 	tagId := p.GetStrings("tag_id[]")
 	// 获取是否展示
-	isShow, _ := p.GetInt("is_show")
+	//isShow, _ := p.GetInt("is_show")
 	// 获取是否是否置顶
-	isTop, _ := p.GetInt("is_top")
-	beego.Info(isShow)
-	beego.Info(isTop)
+	//isTop, _ := p.GetInt("is_top")
 	// markdown 内容
 	htmlContent := p.GetString("editormd-html-code")
 	htmlContent = beego.Htmlquote(htmlContent) // 转义内容
 	// content 内容
 	content := p.GetMustString("content", "内容不能为空")
 	// summary 内容
-	summary := beego.Substr(content, 0, 50)
+	summary := beego.Substr(content, 0, 200)
 
 	// 赋值给模型
 	var a models.Article
 	a.Title = title
 	a.Author = author
 	a.CategoryId, _ = strconv.Atoi(categoryId)
-	a.IsShow = isShow
-	a.IsTop = isTop
+	//a.IsShow = isShow
+	//a.IsTop = isTop
 	a.Summary = summary
 	a.Content = content
 	a.HtmlContent = htmlContent
@@ -175,4 +173,57 @@ func (p *ArticleController) ArticleEditIndex() {
 
 	// 显示页面
 	p.AdminCommTpl("article/edit.html", "编辑文章")
+}
+
+/**
+ * 文章编辑
+ */
+func (p *ArticleController) ArticleEdit() {
+	p.MustLogin()
+	// 接收id
+	id, _ := p.GetInt("id")
+	// 接收其它表单数据
+	title := p.GetMustAndInlen("title", "标题不能为空！", "标题在0-40个字符之间！", 40)
+	author := p.GetMustAndInlen("author", "作者不能为空！", "作者在0-20个字符之间！", 20)
+	categoryId := p.GetMustString("category_id", "分类不能为空！")
+	cateId, _ := strconv.Atoi(categoryId) // 字符串转整型
+	tagId := p.GetStrings("tag_id[]")
+	isShow, _ := p.GetInt("is_show")
+	isTop, _ := p.GetInt("is_top")
+	htmlContent := p.GetString("editormd-html-code")
+	htmlContent = beego.Htmlquote(htmlContent) // html转义
+	content := p.GetMustString("content", "内容不能为空！")
+	summary := beego.Substr(content, 0, 200)
+	beego.Info(isShow)
+	beego.Info(isTop)
+
+	// 赋值给结构体
+	var a models.Article
+	a.ID = uint(id)
+	a.Title = title
+	a.Author = author
+	a.CategoryId = cateId
+	a.IsShow = isShow
+	a.IsTop = isTop
+	a.HtmlContent = htmlContent
+	a.Content = content
+	a.Summary = summary
+
+	// 调用模型完成更新操作
+	err := models.Article{}.UpdateArticleById(&a)
+	if err != nil {
+		p.About500(syserrors.New("编辑失败！", err))
+	} else {
+		if len(tagId) != 0 { // 如果有选择标签才维护
+			// 维护article_tag表
+			// 将tagId数组转化为用','分隔的字符串
+			tagIds := strings.Replace(strings.Trim(fmt.Sprint(tagId), "[]"), " ", ",", -1)
+			// 添加到article_tag表
+			models.ArticleTag{}.UpdateArticleTagById(a.ID, tagIds)
+			// 提示并跳转
+			p.ReturnJson("编辑成功！", "/admin/article/list/1")
+		} else {
+			p.ReturnJson("编辑成功！", "/admin/article/list/1")
+		}
+	}
 }

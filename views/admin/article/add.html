@@ -112,11 +112,12 @@
     var testEditor;
     $(function () {
         $("#author").val('h1ml');
-        $(".i-checks").iCheck({
+        $(".i-checks").iCheck({ // 引入icheck插件
             checkboxClass: 'icheckbox_minimal-red',
             radioClass: 'iradio_minimal-red',
             labelHover: true,
         });
+
         testEditor = editormd("editormd", {
             placeholder:'请输入内容',  //默认显示的文字，这里就不解释了
             width: "78%",
@@ -127,7 +128,7 @@
             // 图片上传
             imageUpload : true,
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL : "/admin/article/uploads",
+            imageUploadURL : "/admin/article/uploads", // 上传图片请求的url
 
             // theme: "dark",//工具栏主题
             // previewTheme: "dark",//预览主题
@@ -140,7 +141,7 @@
             flowChart       : true,  // 默认不解析
             sequenceDiagram : true,  // 默认不解析
             tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-            toolbarIcons : function() {  //自定义工具栏，后面有详细介绍
+            toolbarIcons : function() {  //自定义工具栏
                 //return editormd.toolbarModes['full']; // full, simple, mini
                 return ["undo","redo","|","bold","del","italic","quote","ucwords","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","link","reference-link","image","code","preformatted-text","code-block","table","datetime","html-entities","pagebreak","|","watch","preview","fullscreen","search"]
             },

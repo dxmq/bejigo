@@ -70,48 +70,47 @@
 <script type="text/javascript" src="/static/lib/bootstrap-paginator/src/bootstrap-paginator.js"></script>
 <script type="text/javascript">
     var p = $("#page");
-    var currentPage = {{.Page.PageNo}}
-    $(function () {
-        var options = {
-            currentPage: currentPage,
-            totalPages: '{{.Page.TotalPage}}',
-            //pageUrl: '/admin/article/list',
-            bootstrapMajorVersion: 3,
-            numberOfPages: 5, //设置控件显示的页码数
-            useBootstrapTooltip: false,//是否显示tip提示框
-            size: "small",
-            tooltipTitles: function (type, page, current) {
-                switch (type) {
-                    case "first":
-                        return "首页";
-                    case "prev":
-                        return "上一页";
-                    case "next":
-                        return "下一页";
-                    case "last":
-                        return "尾页";
-                    case "page":
-                        return (page === current) ? "Current page is " + page : "去往第 " + page + "页";
-                }
-            },
-            itemTexts:function(type,page, current){//文字翻译可有可无
-                switch (type) {
-                    case "first":
-                        return "首页";
-                    case "prev":
-                        return "上一页";
-                    case "next":
-                        return "下一页";
-                    case "last":
-                        return "尾页";
-                    case "page":
-                        return page;
-                }
-            },
-            onPageClicked: function(e,originalEvent,type,page){
-                window.location.href = "/admin/article/list/" + page
-            },
-        };
-        p.bootstrapPaginator(options);
-    });
+        $(function () {
+            var options = {
+                currentPage: {{.Page.PageNo}},
+                totalPages: '{{.Page.TotalPage}}',
+                //pageUrl: '/admin/article/list',
+                bootstrapMajorVersion: 3,
+                numberOfPages: 5, //设置控件显示的页码数
+                useBootstrapTooltip: false,//是否显示tip提示框
+                size: "small",
+                tooltipTitles: function (type, page, current) {
+                    switch (type) {
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "尾页";
+                        case "page":
+                            return (page === current) ? "Current page is " + page : "去往第 " + page + "页";
+                    }
+                },
+                itemTexts:function(type,page, current){//文字翻译可有可无
+                    switch (type) {
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "尾页";
+                        case "page":
+                            return page;
+                    }
+                },
+                onPageClicked: function(e,originalEvent,type,page){
+                    window.location.href = "/admin/article/list/" + page
+                },
+            };
+            p.bootstrapPaginator(options);
+        });
 </script>

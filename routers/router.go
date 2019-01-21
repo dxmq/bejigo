@@ -25,8 +25,9 @@ func init() {
 	beego.Router("/admin/category/edit", &controllers.CategoryController{}, "post:CategoryEdit")
 	beego.Router("/admin/category/delete", &controllers.CategoryController{}, "post:CategoryDelete")
 
-	// 文章添加
+	// 文章添加页面显示
 	beego.Router("/admin/article/addindex", &controllers.ArticleController{}, "get:ArticleAddIndex")
+	// 文章添加功能
 	beego.Router("/admin/article/create", &controllers.ArticleController{}, "post:ArticleCreate")
 
 	// editormd 图片上传
@@ -37,4 +38,7 @@ func init() {
 
 	// 文章编辑表单显示
 	beego.Router("/admin/article/editindex/:id", &controllers.ArticleController{}, "get:ArticleEditIndex")
+
+	// 文章编辑
+	beego.Router("/admin/article/edit", &controllers.ArticleController{}, "post:ArticleEdit")
 }
