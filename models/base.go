@@ -19,7 +19,7 @@ func init() {
 	if err != nil {
 		panic("连接数据库失败")
 	}
-	db.AutoMigrate(&User{}, &Tag{}, &Category{})
+	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{})
 	var count int
 	// 如果数据里边没有数据，新增一条记录
 	if err := db.Model(&User{}).Count(&count).Error; err == nil && count == 0 {

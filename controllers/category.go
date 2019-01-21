@@ -4,7 +4,6 @@ import (
 	"bego/models"
 	"bego/syserrors"
 	"encoding/json"
-	"github.com/astaxie/beego"
 )
 
 type CategoryController struct {
@@ -19,13 +18,7 @@ type CategoryDeleteId struct {
  */
 func (ctx *CategoryController) CategoryList() {
 	ctx.MustLogin()
-	// 取出所有的分类信息
-	var category []models.Category
-	err := models.Category{}.GetAllCategory(&category)
-	if err != nil {
-		ctx.About500(syserrors.New("暂无分类！", err))
-	}
-	ctx.Data["Category"] = category
+	ctx.Data["Category"] = ctx.GetAllCategory()
 	ctx.AdminCommTpl("category/list.html", "分类列表")
 }
 
@@ -43,9 +36,7 @@ func (ctx *CategoryController) CategoryAddIndex() {
 func (ctx *CategoryController) CategoryCreate() {
 	ctx.MustLogin()
 	// 接收并验证数据
-	categoryName := ctx.GetMustString("category_name", "分类不能为空！")
-	categoryName = ctx.GetAllowMaxString("category_name", "长度在0-20个字符之间！", 20)
-
+	categoryName := ctx.GetMustAndInlen("category_name", "分类名称不能为空！", "分类名称长度在0-20个字符之间！", 20)
 	// 调用模型的CategoryCreate方法 完成添加
 	err := models.Category{}.CategoryCreate(categoryName)
 	if err != nil {
@@ -77,13 +68,9 @@ func (ctx *CategoryController) CategoryEditIndex() {
  */
 func (ctx *CategoryController) CategoryEdit() {
 	ctx.MustLogin()
-	beego.Info("123")
 	// 接收并验证数据
-	categoryName := ctx.GetMustString("category_name", "分类不能为空！")
-	categoryName = ctx.GetAllowMaxString("category_name", "长度在0-20个字符之间！", 20)
+	categoryName := ctx.GetMustAndInlen("category_name", "分类不能为空！", "分类长度在0-20个字符之间！", 20)
 	id := ctx.GetString("ID")
-	beego.Info(id)
-	beego.Info(categoryName)
 	// 调用模型去编辑
 	var category models.Category
 	err := models.Category{}.CategoryEdit(&category, id, categoryName)

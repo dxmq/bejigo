@@ -20,7 +20,8 @@ func AddTag(t *Tag) error {
 	return db.Create(&t).Error
 }
 
-func GetAll(a *[]Tag) error {
+// 查询出所有的标签
+func GetAllTag(a *[]Tag) error {
 	return db.Find(&a).Error
 }
 
@@ -32,4 +33,9 @@ func GetTagById(id string) (tag Tag, err error) {
 // 强删除标签
 func DeleteTagById(id string) error {
 	return db.Unscoped().Where("id = ?", id).Delete(&Tag{}).Error
+}
+
+// 根据标签id查询出标签
+func (p Tag) GetTags(t *[]Tag, id string) {
+	db.Raw("select * from tags where id in(" + id + ")").Scan(&t)
 }

@@ -30,8 +30,7 @@ func (p *TagController) TagCreate() {
 // @router /admin/tag [post]
 func (p *TagController) TagStore() {
 	p.MustLogin()
-	name := p.GetMustString("name", "标签不能为空！")
-	name = p.GetAllowMaxString("name", "长度在0-20个字符之间", 20)
+	name := p.GetMustAndInlen("name", "标签不能为空！", "标签长度在0-20个字符之间！", 20)
 	var t models.Tag
 	t.Name = name
 	if err := models.AddTag(&t); err != nil {
@@ -46,12 +45,7 @@ func (p *TagController) TagStore() {
 // @router /admin/tag [get]
 func (p *TagController) TagList() {
 	p.MustLogin()
-	var a []models.Tag
-	err := models.GetAll(&a)
-	if err != nil {
-		p.About500(syserrors.New("暂无标签！", err))
-	}
-	p.Data["tag"] = a
+	p.Data["tag"] = p.GetAllTag()
 	//fmt.Printf("%v", a)
 	p.AdminCommTpl("tag/list.html", "标签列表")
 }
@@ -79,8 +73,7 @@ func (p *TagController) TagShow() {
 // @router /admin/tag/edit [post]
 func (p *TagController) TagEdit() {
 	p.MustLogin()
-	name := p.GetMustString("name", "标签不能为空！")
-	name = p.GetAllowMaxString("name", "长度在0-20个字符之间！", 20)
+	name := p.GetMustAndInlen("name", "标签不能为空！", "标签长度在0-20个字符之间！", 20)
 	id := p.GetString("ID")
 	var t models.Tag
 	if err := models.SaveTag(&t, id, name); err != nil {
