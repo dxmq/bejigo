@@ -4,6 +4,7 @@ import (
 	"bego/models"
 	"bego/syserrors"
 	"encoding/json"
+	"strings"
 )
 
 type TagController struct {
@@ -36,7 +37,7 @@ func (p *TagController) TagStore() {
 	if err := models.AddTag(&t); err != nil {
 		p.About500(syserrors.New("添加失败", err))
 	}
-	p.ReturnJson("添加成功", "/admin/tag/create")
+	p.ReturnJson("添加成功", "/admin/tag")
 }
 
 /**
@@ -90,10 +91,29 @@ func (p *TagController) TagDelete() {
 	p.MustLogin()
 	var t Object
 	// 接收 id
-	json.Unmarshal(p.Ctx.Input.RequestBody, &t)
-	// 删除
-	if err := models.DeleteTagById(t.Id); err != nil {
-		p.About500(syserrors.New("删除失败", err))
+	err := json.Unmarshal(p.Ctx.Input.RequestBody, &t)
+	if err == nil {
+		// 删除
+		if err1 := models.DeleteTagById(t.Id); err1 != nil {
+			p.About500(syserrors.New("删除失败", err1))
+		}
+		// 维护article_tags表，删除tag时，删除文章对应的tag
+		// 查询出所有的tag_ids
+		var at []models.ArticleTag
+		models.ArticleTag{}.GetAllTagId(&at)
+		for _, v := range at {
+			option := strings.Index(v.TagId, t.Id+",")
+			option1 := strings.Index(v.TagId, t.Id)
+			var newTagIds string
+			if option != -1 { // 1,2 如果"1,"存在，将"1,"替换为""
+				newTagIds = strings.Replace(v.TagId, t.Id+",", "", -1)
+			} else { //
+				if option1 == -1 { // 如果没有
+					newTagIds = strings.Replace(v.TagId, ","+t.Id, "", -1)
+				}
+			}
+			models.ArticleTag{}.UpdateArticleTagById(v.ArticleId, newTagIds)
+		}
+		p.ReturnJsonCode("删除成功")
 	}
-	p.ReturnJsonCode("删除成功")
 }

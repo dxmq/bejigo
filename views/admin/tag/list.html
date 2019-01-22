@@ -60,7 +60,7 @@
         $(".tag-del").click(function () {
             var id = $(this).attr("dataid");
             // 给个提示
-            layer.confirm("确定要删除吗？", {
+            layer.confirm("删除标签会同时删除文章对应的标签，您确定要删除吗？", {
                 icon: 3,
                 title: "标签删除"
             }, function (index) {

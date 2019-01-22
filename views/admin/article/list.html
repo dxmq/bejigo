@@ -51,7 +51,7 @@
                                     <td>{{.Views}}</td>
                                     <td>
                                         <a href="/admin/article/editindex/{{.ID}}" class="btn btn-azure btn-xs">编辑</a>
-                                        <a href="#" class="btn btn-danger btn-xs article-del" dataid="{$vo.id}">删除</a>
+                                        <a href="#" class="btn btn-danger btn-xs article-del" dataid="{{.ID}}">删除</a>
                                     </td>
                                 </tr>
                             {{end}}
@@ -113,4 +113,49 @@
             };
             p.bootstrapPaginator(options);
         });
+</script>
+<script>
+    $(function () {
+        $(".article-del").click(function () {
+            var id = $(this).attr("dataid");
+            layer.confirm("确定要删除吗？", {
+                icon: 3,
+                title: "删除文章"
+            }, function (index) {
+                layer.close(index);
+                $.ajax({
+                    url: "/admin/article/delete",
+                    type: "post",
+                    data: '{"id": "'+id+'"}',
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === 0) {
+                            var result = $("#article_tr_" + id).remove();
+                            if (result) {
+                                layer.msg(data.msg, {
+                                    icon: 6,
+                                    time: 1000
+                                });
+                            }
+                        } else {
+                            layer.open({
+                                icon: 5,
+                                anim: 6,
+                                title: "删除文章",
+                                content: data.msg
+                            });
+                        }
+                    }, error: function () {
+                        layer.open({
+                            icon: 5,
+                            anim: 6,
+                            title: "删除文章",
+                            content: "网络错误！"
+                        });
+                    }
+                });
+            });
+            return false;
+        });
+    })
 </script>

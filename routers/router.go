@@ -39,6 +39,9 @@ func init() {
 	// 文章编辑表单显示
 	beego.Router("/admin/article/editindex/:id", &controllers.ArticleController{}, "get:ArticleEditIndex")
 
-	// 文章编辑
+	// 编辑文章
 	beego.Router("/admin/article/edit", &controllers.ArticleController{}, "post:ArticleEdit")
+
+	// 文章删除
+	beego.Router("/admin/article/delete", &controllers.ArticleController{}, "post:ArticleDelete")
 }

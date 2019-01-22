@@ -88,3 +88,20 @@ func (p Article) GetArticleById(id string, r *Result) {
 func (p Article) UpdateArticleById(a *Article) error {
 	return db.Save(&a).Error
 }
+
+type ArticleDeleteId struct {
+	Id string
+}
+
+// 删除文章
+func (p Article) DeleteArticleById(id string) error {
+	// 强制删除，不是软删除
+	return db.Unscoped().Where("id = ?", id).Delete(&Article{}).Error
+}
+
+// 统计出拥有当前分类id的文章数目
+func (p Article) GetCountByCateId(categoryId string) int {
+	var count int
+	db.Model(&p).Count(&count).Where("category_id", categoryId)
+	return count
+}

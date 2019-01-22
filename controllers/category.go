@@ -4,6 +4,7 @@ import (
 	"bego/models"
 	"bego/syserrors"
 	"encoding/json"
+	"errors"
 )
 
 type CategoryController struct {
@@ -89,11 +90,17 @@ func (ctx *CategoryController) CategoryDelete() {
 	// 接收id
 	err := json.Unmarshal(ctx.Ctx.Input.RequestBody, &c)
 	if err == nil {
+		// 要先查询当前分类下还有没有文章
+		count := models.Article{}.GetCountByCateId(c.Id)
+		if count != 0 {
+			ctx.About500(errors.New("当前分类下还有文章，请先删除文章！"))
+		}
+		// 如果当前分类下没有文章
 		err1 := models.Category{}.CategoryDeleteById(c.Id)
-		if err1 != nil { // 如果有错的话
-			ctx.About500(syserrors.New("删除失败！", err))
-		} else {
+		if err1 == nil { // 如果没有错的话
 			ctx.ReturnJsonCode("删除成功")
+		} else {
+			ctx.About500(syserrors.New("删除失败！", err))
 		}
 	}
 }

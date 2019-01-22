@@ -3,6 +3,7 @@ package controllers
 import (
 	"bego/models"
 	"bego/syserrors"
+	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
 	"os"
@@ -224,6 +225,25 @@ func (p *ArticleController) ArticleEdit() {
 			p.ReturnJson("编辑成功！", "/admin/article/list/1")
 		} else {
 			p.ReturnJson("编辑成功！", "/admin/article/list/1")
+		}
+	}
+}
+
+/**
+ * 删除文章
+ */
+func (p *ArticleController) ArticleDelete() {
+	p.MustLogin()
+	var aid models.ArticleDeleteId // 用结构体接收ajax过来的数据
+	err1 := json.Unmarshal(p.Ctx.Input.RequestBody, &aid)
+	if err1 == nil {
+		err2 := models.Article{}.DeleteArticleById(aid.Id)
+		if err2 == nil {
+			// 维护article_tag表，删除文章时删除对应的标签数据
+			models.ArticleTag{}.DeleteArticleTagById(aid.Id)
+			p.ReturnJsonCode("删除成功！")
+		} else {
+			p.About500(syserrors.New("删除失败！", err2))
 		}
 	}
 }
