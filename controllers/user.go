@@ -35,6 +35,7 @@ func (p *UserController) Login() {
 	username := p.GetMustString("user_name", " 用户名不能为空！")
 	// password
 	password := p.GetMustString("pass_word", "密码不能为空！")
+	password = models.GetMd5String(password) // md5加密
 	// captcha
 	p.GetMustString("captcha", "验证码不能为空！")
 	if cpt.VerifyReq(p.Ctx.Request) == false {
@@ -56,4 +57,17 @@ func (p *UserController) LoginOut() {
 	// 清空session
 	p.DelSession(SESSION_USER_KEY)
 	p.ReturnJson("退出成功", "/admin/login/index")
+}
+
+// 用户资料
+// @router /admin/index/profile/:id [get]
+func (p *AdminController) Profile() {
+	p.MustLogin()
+	id := p.Ctx.Input.Param(":id")
+	// 根据id查询出当前用户的信息
+	var user models.User
+	models.User{}.GetUserInfoById(id, &user)
+	// assign 到页面
+	p.Data["User"] = user
+	p.AdminCommTpl("profile/profile.html", "个人资料")
 }

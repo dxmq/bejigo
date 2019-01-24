@@ -22,7 +22,7 @@ func AddTag(t *Tag) error {
 
 // 查询出所有的标签
 func GetAllTag(a *[]Tag) error {
-	return db.Find(&a).Error
+	return db.Select("id, name, created_at").Find(&a).Error
 }
 
 // 查询当前id的标签信息

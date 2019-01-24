@@ -1,6 +1,8 @@
 package models
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"os"
@@ -19,16 +21,24 @@ func init() {
 	if err != nil {
 		panic("连接数据库失败")
 	}
-	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{})
+	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{})
 	var count int
 	// 如果数据里边没有数据，新增一条记录
 	if err := db.Model(&User{}).Count(&count).Error; err == nil && count == 0 {
+		password := GetMd5String("123456")
 		db.Create(&User{
 			UserName: "admin",
-			PassWord: "123",
+			PassWord: password,
 			Email:    "admin888@qq.com",
 			Avatar:   "/static/index/img/face.png",
 			Role:     1,
 		})
 	}
+}
+
+// md5 获取
+func GetMd5String(s string) string {
+	h := md5.New()
+	h.Write([]byte(s))
+	return hex.EncodeToString(h.Sum(nil))
 }

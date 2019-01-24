@@ -4,10 +4,10 @@
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
             <li class="active">
-                <i class="fa fa-tag"></i>&nbsp;标签管理
+                <i class="fa fa-link"></i>&nbsp;链接管理
             </li>
             <li>
-                标签添加
+                链接修改
             </li>
         </ul>
     </div>
@@ -18,23 +18,34 @@
             <div class="col-xs-12">
                 <div class="widget radius-bordered">
                     <div class="widget-header bordered-bottom bordered-themeprimary">
-                        <span class="widget-caption">标签添加</span>
+                        <span class="widget-caption">链接修改</span>
                     </div>
                     <div class="widget-body">
                         <form class="form-horizontal">
+                            <input type="hidden" name="id" value="{{.LinkInfo.ID}}">
                             <div class="form-group">
-                                <label for="name" class="col-sm-2 control-label no-padding-right">标签名称</label>
+                                <label for="link_name" class="col-sm-2 control-label no-padding-right">链接名称</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="name" placeholder="标签名称" name="name"/>
-                                    <p class="help-block">请输入标签名称</p>
+                                    <input type="text" class="form-control" id="link_name" placeholder="链接名称" name="link_name" value="{{.LinkInfo.LinkName}}" />
+                                    <p class="help-block">请输入链接名称</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="link_url" class="col-sm-2 control-label no-padding-right">链接名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="link_url" placeholder="链接名称" name="link_url" value="{{.LinkInfo.LinkUrl}}" />
+                                    <p class="help-block">请输入链接地址</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="button" class="btn btn-primary" id="tagAdd">添加</button>
+                                    <button type="button" class="btn btn-primary" id="LinkEdit">修改</button>
                                 </div>
                             </div>
                         </form>
+{{/*
+                            <p style="color: #ff0000">出错了！没有当前链接数据！</p>
+*/}}
                     </div>
                 </div>
             </div>
@@ -46,41 +57,38 @@
 <script src="/static/admin/js/jquery.min.js"></script>
 <script>
     $(function () {
-        $("#tagAdd").click(function () {
+        $("#LinkEdit").click(function () {
             $.ajax({
-                url: "/admin/tag",
+                url: "/admin/link/edit",
                 type: "post",
                 data: $("form").serialize(),
                 dataType: "json",
                 success: function (data) {
-                    if (data.code == 0) {
+                    if (data.code === 0) {
                         layer.msg(data.msg, {
                             icon: 6,
                             time: 1000
                         }, function () {
-                            if (data.url) {
-                                location.href = data.url;
-                            }
+                            location.href = data.url;
                         });
                     } else {
                         layer.open({
                             icon: 5,
                             anim: 6,
-                            title: "标签",
+                            title: "编辑链接",
                             content: data.msg
-                        })
+                        });
                     }
-                },
-                error:function () {
+                }, error: function () {
                     layer.open({
                         icon: 5,
                         anim: 6,
-                        title: "标签",
+                        title: "出错了！",
                         content: "网络错误！"
                     });
                 }
             });
             return false;
         });
-    });
+    })
 </script>

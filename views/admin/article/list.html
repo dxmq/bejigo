@@ -4,7 +4,7 @@
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
             <li class="active">
-                <i class="fa fa-home"></i>&nbsp;文章管理
+                <i class="fa fa-file"></i>&nbsp;文章管理
             </li>
             <li>文章列表</li>
         </ul>
@@ -90,7 +90,7 @@
                         case "last":
                             return "尾页";
                         case "page":
-                            return (page === current) ? "Current page is " + page : "去往第 " + page + "页";
+                            return (page === current) ? "当前是第 " + page + "页" : "去往第 " + page + "页";
                     }
                 },
                 itemTexts:function(type,page, current){//文字翻译可有可无

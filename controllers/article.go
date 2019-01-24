@@ -195,8 +195,6 @@ func (p *ArticleController) ArticleEdit() {
 	htmlContent = beego.Htmlquote(htmlContent) // html转义
 	content := p.GetMustString("content", "内容不能为空！")
 	summary := beego.Substr(content, 0, 200)
-	beego.Info(isShow)
-	beego.Info(isTop)
 
 	// 赋值给结构体
 	var a models.Article

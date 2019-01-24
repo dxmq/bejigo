@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
+	"strconv"
 )
 
 type Category struct {
@@ -18,7 +19,7 @@ func (c Category) CategoryCreate(CategoryName string) (err error) {
 
 // 获取所有的分类信息
 func (c Category) GetAllCategory(category *[]Category) error {
-	return db.Find(&category).Error
+	return db.Select("id, created_at, category_name").Find(&category).Error
 }
 
 // 获取当前id的那条分类信息
@@ -34,4 +35,23 @@ func (c Category) CategoryEdit(category *Category, id, CategoryName string) erro
 // 删除分类
 func (c Category) CategoryDeleteById(id string) error {
 	return db.Unscoped().Where("id = ?", id).Delete(&Category{}).Error
+}
+
+type CateAndArticleNum struct {
+	Id           uint
+	CategoryName string
+	Number       int
+}
+
+// 前台
+// 取出所有分类及当前分类下的文章数目
+func (c Category) GetAllCateAndNum() (cate []CateAndArticleNum) {
+	db.Model(&c).Select("id, category_name").Scan(&cate)
+	for inx, v := range cate {
+		categoryId := strconv.Itoa(int(v.Id))
+		var count int
+		db.Model(&Article{}).Where("category_id = ?", categoryId).Where("is_show = ?", 1).Count(&count)
+		cate[inx].Number = count
+	}
+	return cate
 }

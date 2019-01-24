@@ -60,7 +60,8 @@ func (p *BaseController) Prepare() {
 	if ok {
 		p.User = u
 		p.IsLogin = true
-		p.Data["User"] = p.User.UserName
+		p.Data["Id"] = p.User.ID
+		p.Data["UserName"] = p.User.UserName
 		p.Data["Email"] = p.User.Email
 		p.Data["Avatar"] = p.User.Avatar
 	}
@@ -144,8 +145,23 @@ func (p *BaseController) SubString(s string, pos, length int) string {
 
 // 前台模板渲染
 func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl string) {
+	// 取出最新文章
+	var newResult []models.Result
+	models.Article{}.GetNewArticle(5, &newResult)
+	p.Data["NewArticle"] = newResult
+	// 取出所有分类及分类下的文章数目
+	cate := models.Category{}.GetAllCateAndNum()
+	p.Data["CategoryData"] = cate
+
+	// 取出所有的标签
+	tag := p.GetAllTag()
+	p.Data["TagData"] = tag
+
+	// 取出所有的友链
+	var l []models.Link
+	models.Link{}.GetAllLink(&l)
+	p.Data["LinkInfo"] = l
 	p.Data["url"] = beego.URLFor("IndexController." + method)
-	beego.Info(p.Data["url"])
 	p.Layout = "index/public/layout.html"
 	p.TplName = "index/" + tpl
 	if len(sectionTpl) != 0 {

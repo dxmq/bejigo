@@ -17,7 +17,6 @@
     <link rel="apple-touch-icon" href="/static/index/img/apple-touch-icon.png" />
     <link rel="apple-touch-icon-precomposed" href="/static/index/img/apple-touch-icon.png" />
     <link rel="alternate" type="application/atom+xml" href="/atom.xml" />
-    {{.HtmlHead}}
 </head>
 <body>
 <div class="body_container">
@@ -67,10 +66,9 @@
                         <code><i class="fa fa-xie"> 最新文章</i></code>
                     </div>
                     <ul class="post-list">
-                        <li class="post-list-item"><code><a class="post-list-link" href="index-3.htm" tppabs="https://h7ml.cn/2018/05/24/js-this/">javascript this</a></code></li>
-                        <li class="post-list-item"><code><a class="post-list-link" href="index-5.htm" tppabs="https://h7ml.cn/2018/05/23/js-Array-method/">javascript数组方法总结</a></code></li>
-                        <li class="post-list-item"><code><a class="post-list-link" href="index-6.htm" tppabs="https://h7ml.cn/2018/05/22/cssUnit/">css单位总结</a></code></li>
-                        <li class="post-list-item"><code><a class="post-list-link" href="index-7.htm" tppabs="https://h7ml.cn/2018/04/15/hello-world/">Hello World</a></code></li>
+                        {{range .NewArticle}}
+                            <li class="post-list-item"><code><a class="post-list-link" href="index-3.htm" tppabs="https://h7ml.cn/2018/05/24/js-this/">{{.Title}}</a></code></li>
+                        {{end}}
                     </ul>
                 </div>
                 <div class="widget">
@@ -78,8 +76,9 @@
                         <code><i class="fa fa-gui"> 分类</i></code>
                     </div>
                     <ul class="category-list">
-                        <li class="category-list-item"><code><a class="category-list-link" href="index-8.htm" tppabs="https://h7ml.cn/categories/hello-word/">hello word</a><span class="category-list-count">1</span></code></li>
-                        <li class="category-list-item"><code><a class="category-list-link" href="index-4.htm" tppabs="https://h7ml.cn/categories/前端/">前端</a><span class="category-list-count">3</span></code></li>
+                        {{range .CategoryData}}
+                            <li class="category-list-item"><code><a class="category-list-link" href="index-8.htm" tppabs="https://h7ml.cn/categories/hello-word/">{{.CategoryName}}</a><span class="category-list-count">{{.Number}}</span></code></li>
+                        {{end}}
                     </ul>
                 </div>
                 <div class="widget">
@@ -87,7 +86,11 @@
                         <code><i class="fa fa-biao"> 标签</i></code>
                     </div>
                     <div class="tagcloud">
-                        <code><a href="index-9.htm" tppabs="https://h7ml.cn/tags/css/" style="font-size: 15px;">css</a> <a href="index-10.htm" tppabs="https://h7ml.cn/tags/css单位/" style="font-size: 15px;">css单位</a> <a href="index-11.htm" tppabs="https://h7ml.cn/tags/js/" style="font-size: 15px;">js</a> <a href="index-12.htm" tppabs="https://h7ml.cn/tags/js数组方法/" style="font-size: 15px;">js数组方法</a> <a href="index-13.htm" tppabs="https://h7ml.cn/tags/js-this/" style="font-size: 15px;">js this</a> <a href="index-14.htm" tppabs="https://h7ml.cn/tags/hello-word/" style="font-size: 15px;">hello word</a></code>
+                        <code>
+                            {{range .TagData}}
+                                <a href="index-10.htm" tppabs="https://h7ml.cn/tags/css单位/" style="font-size: 15px;">{{.Name}}</a>
+                            {{end}}
+                        </code>
                     </div>
                 </div>
                 <div class="widget">
@@ -104,10 +107,15 @@
                         <code><i class="fa fa-you"> 友情链接</i></code>
                     </div>
                     <ul></ul>
-                    <code><a href="javascript:if(confirm(%27https://w3ctech.coding.me/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://w3ctech.coding.me/%27" tppabs="https://w3ctech.coding.me/" title="w4ctech" target="_blank">w4ctech</a>
-                        <ul></ul><a href="javascript:if(confirm(%27http://caibaojian.com/links  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://caibaojian.com/links%27" tppabs="http://caibaojian.com/links" title="前端导航" target="_blank">前端导航</a>
-                        <ul></ul><a href="javascript:if(confirm(%27https://21cm.github.io/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://21cm.github.io/%27" tppabs="https://21cm.github.io/" title="21cm" target="_blank">21cm</a>
-                        <ul></ul><a href="javascript:if(confirm(%27http://www.yangqq.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.yangqq.com/%27" tppabs="http://www.yangqq.com/" title="杨青博客" target="_blank">杨青博客</a></code>
+                    <code>
+                        {{range .LinkInfo}}
+                            <ul>
+                                <li>
+                                    <a href="{{.LinkUrl}}" title="{{.LinkName}}" target="_blank">{{.LinkName}}</a>
+                                </li>
+                            </ul>
+                        {{end}}
+                    </code>
                 </div>
             </div>
         </div>

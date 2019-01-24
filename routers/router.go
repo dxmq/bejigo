@@ -44,4 +44,22 @@ func init() {
 
 	// 文章删除
 	beego.Router("/admin/article/delete", &controllers.ArticleController{}, "post:ArticleDelete")
+
+	// 添加表单显示
+	beego.Router("/admin/link/addindex", &controllers.LinkController{}, "get:LinkAddIndex")
+
+	// 链接添加
+	beego.Router("/admin/link/create", &controllers.LinkController{}, "post:LinkCreate")
+
+	// 链接列表
+	beego.Router("/admin/link/list", &controllers.LinkController{}, "get:LinkList")
+
+	// 修改链接表单显示
+	beego.Router("/admin/link/editindex/:id", &controllers.LinkController{}, "get:LinkEditIndex")
+
+	// 修改链接
+	beego.Router("/admin/link/edit", &controllers.LinkController{}, "post:LinkEdit")
+
+	// 删除链接
+	beego.Router("/admin/link/delete", &controllers.LinkController{}, "post:LinkDelete")
 }

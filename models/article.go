@@ -102,6 +102,21 @@ func (p Article) DeleteArticleById(id string) error {
 // 统计出拥有当前分类id的文章数目
 func (p Article) GetCountByCateId(categoryId string) int {
 	var count int
-	db.Model(&p).Count(&count).Where("category_id", categoryId)
+	db.Model(&p).Where("category_id = ?", categoryId).Count(&count)
 	return count
+}
+
+/******* 前台相关 ******/
+// 根据页码获取文章信息
+func (p Article) GetArticleData(pageSize int, r *[]Result) {
+	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.created_at, a.summary, b.category_name").Where("is_show = ?", 1).Order("a.is_top desc").Order("a.created_at desc").Joins("left join categories as b on b.id = a.category_id").Limit(pageSize).Scan(&r)
+}
+
+// 取出最新的文章
+func (p Article) GetNewArticle(number int, r *[]Result) {
+	db.Model(&p).Order("created_at desc").Select("id, title").Scan(&r)
+}
+
+func (p Article) GetArchives(r *[]Result) {
+	db.Model(&p).Order("created_at desc").Select("id, title, created_at").Scan(&r)
 }

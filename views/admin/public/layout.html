@@ -43,12 +43,12 @@
                                     <img src="{{.Avatar}}">
                                 </div>
                                 <section style="min-width: 70px;">
-                                    <h2><span class="profile"><span>{{.User}}</span></span></h2>
+                                    <h2><span class="profile"><span>{{.UserName}}</span></span></h2>
                                 </section>
                             </a>
                             <!--Login Area Dropdown-->
                             <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                                <li class="username"><a>{{.User}}</a></li>
+                                <li class="username"><a>{{.UserName}}</a></li>
                                 <li class="email"><a>{{.Email}}</a></li>
                                 <!--Avatar Area-->
                                 <li>
@@ -59,7 +59,7 @@
                                 </li>
                                 <!--Avatar Area-->
                                 <li class="edit">
-                                    <a href="{:url('admin/index/lst')}" class="pull-left">个人资料</a>
+                                    <a href="/admin/index/profile/{{.Id}}" class="pull-left">个人资料</a>
                                     <a href="{:url('admin/index/lst')}" class="pull-right">个人设置</a>
                                 </li>
                                 <!--Theme Selector Area-->
@@ -130,7 +130,7 @@
                 </li>
                 <li>
                     <a href="/admin/article/list/1" class="menu-dropdown">
-                        <i class="menu-icon glyphicon glyphicon glyphicon-book"></i>
+                        <i class="menu-icon glyphicon glyphicon glyphicon-file"></i>
                         <span class="menu-text">文章管理</span>
                         <i class="menu-expand"></i>
                     </a>
@@ -194,65 +194,32 @@ glyphicon glyphicon-th-list"></i>
                     </a>
                     <ul class="submenu">
                         <li>
-                            <a href="#">
+                            <a href="/admin/user/list">
                                 <span class="menu-text">会员列表</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/admin/user/addindex">
                                 <span class="menu-text">会员添加</span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="{:url('admin/index/lst')}" class="menu-dropdown">
-                        <i class="menu-icon glyphicon glyphicon glyphicon-send"></i>
-                        <span class="menu-text">管理员管理</span>
+                    <a href="#" class="menu-dropdown">
+                        <i class="menu-icon glyphicon glyphicon glyphicon-link"></i>
+                        <span class="menu-text">友链管理</span>
                         <i class="menu-expand"></i>
                     </a>
                     <ul class="submenu">
                         <li>
-                            <a href="{:url('admin/index/lst')}">
-                                <span class="menu-text">管理员列表</span>
+                            <a href="/admin/link/list">
+                                <span class="menu-text">友链列表</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{:url('admin/index/add')}">
-                                <span class="menu-text">管理员添加</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{:url('admin/chat/lst')}" class="menu-dropdown">
-                        <i class="menu-icon glyphicon glyphicon glyphicon-comment"></i>
-                        <span class="menu-text">随言碎语</span>
-                        <i class="menu-expand"></i>
-                    </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="{:url('admin/chat/lst')}">
-                                <span class="menu-text">随言碎语列表</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/chat/add')}">
-                                <span class="menu-text">随言碎语添加</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{:url('admin/recycle/lst')}" class="menu-dropdown">
-                        <i class="menu-icon glyphicon glyphicon glyphicon-trash"></i>
-                        <span class="menu-text">回收站</span>
-                        <i class="menu-expand"></i>
-                    </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="{:url('admin/recycle/lst/')}">
-                                <span class="menu-text">文章列表</span>
+                            <a href="/admin/link/addindex">
+                                <span class="menu-text">友链添加</span>
                             </a>
                         </li>
                     </ul>

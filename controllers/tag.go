@@ -107,7 +107,7 @@ func (p *TagController) TagDelete() {
 			var newTagIds string
 			if option != -1 { // 1,2 如果"1,"存在，将"1,"替换为""
 				newTagIds = strings.Replace(v.TagId, t.Id+",", "", -1)
-			} else { //
+			} else {
 				if option1 == -1 { // 如果没有
 					newTagIds = strings.Replace(v.TagId, ","+t.Id, "", -1)
 				}
