@@ -60,10 +60,11 @@ func (p *BaseController) Prepare() {
 	if ok {
 		p.User = u
 		p.IsLogin = true
-		p.Data["Id"] = p.User.ID
+		p.Data["ID"] = p.User.ID
 		p.Data["UserName"] = p.User.UserName
 		p.Data["Email"] = p.User.Email
 		p.Data["Avatar"] = p.User.Avatar
+		p.Data["Role"] = p.User.Role
 	}
 }
 

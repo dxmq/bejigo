@@ -2,14 +2,14 @@
  <div class="content_container">
   {{range .Article}}
    <div class="post">
-    <h2 class="post-title"><a href="index-3.htm" tppabs="https://h7ml.cn/2018/05/24/js-this/">{{.Title}}</a></h2>
+    <h2 class="post-title"><a href="/detail/{{.ID}}">{{.Title}}</a></h2>
     <div class="post-meta">
-     <p><span class="date">{{date .CreatedAt "Y-m-d"}}</span><span><a href="index-4.htm" tppabs="https://h7ml.cn/categories/前端/" class="category">{{.CategoryName}}</a></span> </p>
+     <p><span class="date">{{date .CreatedAt "Y-m-d"}}</span><span><a href="/categories/{{.CategoryName}}" class="category">{{.CategoryName}}</a></span> </p>
     </div>
     <div class="post-content">
      <p>{{.Summary}}...</p>
     </div>
-    <p class="readmore"><a href="index-3.htm" tppabs="https://h7ml.cn/2018/05/24/js-this/">阅读更多</a> </p>
+    <p class="readmore"><a href="/detail/{{.ID}}">阅读更多</a> </p>
    </div>
   {{end}}
   </div>

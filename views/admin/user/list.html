@@ -1,0 +1,112 @@
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-user"></i>&nbsp;用户中心
+            </li>
+            <li>用户列表</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Body -->
+    <div class="page-body">
+        {{if eq 1 .Role}}
+        <a href="/admin/user/addindex" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;用户添加</a>
+        {{end}}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="widget">
+                    <div class="widget-header">
+                        <span class="widget-caption">用户列表</span>
+                        <div class="widget-buttons">
+                            <!-- 分页 -->
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名称</th>
+                                <th>邮箱</th>
+                                <th>角色</th>
+                                <th>添加时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{range .Users}}
+                                <tr id="user_tr_{{.ID}}">
+                                    <td>{{.ID}}</td>
+                                    <td>{{.UserName}}</td>
+                                    <td>{{.Email}}</td>
+                                    <td>{{if eq 1 .Role}}超级管理员{{else}}普通用户{{end}}</td>
+                                    <td>{{date .CreatedAt "Y-m-d H:i:s"}}</td>
+                                    <td>
+                                        {{if eq 1 $.Role}}
+                                        <a href="/admin/user/editindex/{{.ID}}" class="btn btn-azure btn-xs">编辑</a>
+                                        <a href="#" class="btn btn-danger btn-xs user-del" dataid="{{.ID}}">删除</a>
+                                            {{else}}
+                                            暂无权限
+                                        {{end}}
+                                    </td>
+                                </tr>
+                            {{end}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+<script src="/static/admin/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        $(".user-del").click(function () {
+            var id = $(this).attr("dataid");
+            layer.confirm("确定要删除此用户吗？", {
+                icon: 3,
+                title: "删除用户"
+            }, function (index) {
+                layer.close(index);
+                $.ajax({
+                    url: "/admin/user/delete",
+                    type: "post",
+                    data: '{"id": "'+id+'"}',
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === 0) {
+                            var result = $("#user_tr_" + id).remove();
+                            if (result) {
+                                layer.msg(data.msg, {
+                                    icon: 6,
+                                    time: 1000
+                                });
+                            }
+                        } else {
+                            layer.open({
+                               icon: 5,
+                               anim: 6,
+                               title: "删除用户",
+                               content: data.msg
+                            });
+                        }
+                    }, error: function () {
+                        layer.open({
+                           icon: 5,
+                           anim: 6,
+                           title: "删除用户",
+                           content: "网络错误！"
+                        });
+                    }
+                });
+            });
+            return false;
+        });
+    })
+</script>

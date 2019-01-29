@@ -21,9 +21,9 @@ func init() {
 	if err != nil {
 		panic("连接数据库失败")
 	}
-	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{})
+	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{}, &Profile{})
 	var count int
-	// 如果数据里边没有数据，新增一条记录
+	// 如果user数据表里边没有数据，新增一条user记录
 	if err := db.Model(&User{}).Count(&count).Error; err == nil && count == 0 {
 		password := GetMd5String("123456")
 		db.Create(&User{
@@ -32,6 +32,13 @@ func init() {
 			Email:    "admin888@qq.com",
 			Avatar:   "/static/index/img/face.png",
 			Role:     1,
+		})
+	}
+	// 如果profile数据表里没有数据，新增一条user记录
+	if err := db.Model(&Profile{}).Count(&count).Error; err == nil && count == 0 {
+		db.Create(&Profile{
+			UserId: 1,
+			About:  "about",
 		})
 	}
 }

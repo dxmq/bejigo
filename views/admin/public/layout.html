@@ -59,8 +59,8 @@
                                 </li>
                                 <!--Avatar Area-->
                                 <li class="edit">
-                                    <a href="/admin/index/profile/{{.Id}}" class="pull-left">个人资料</a>
-                                    <a href="{:url('admin/index/lst')}" class="pull-right">个人设置</a>
+                                    <a href="/admin/user/editindex/{{.ID}}" class="pull-left">个人设置</a>{{/*
+                                    <a href="{:url('admin/index/lst')}" class="pull-right">个人设置</a>*/}}
                                 </li>
                                 <!--Theme Selector Area-->
                                 <li class="theme-area">
@@ -187,20 +187,27 @@ glyphicon glyphicon-th-list"></i>
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="menu-dropdown">
+                    <a href="/admin/user/profile/{{.Id}}" class="menu-dropdown">
                         <i class="menu-icon glyphicon glyphicon glyphicon-user"></i>
-                        <span class="menu-text">会员管理</span>
+                        <span class="menu-text">用户中心</span>
                         <i class="menu-expand"></i>
                     </a>
                     <ul class="submenu">
                         <li>
                             <a href="/admin/user/list">
-                                <span class="menu-text">会员列表</span>
+                                <span class="menu-text">用户列表</span>
                             </a>
                         </li>
+                        {{if eq 1 .Role}}
                         <li>
                             <a href="/admin/user/addindex">
-                                <span class="menu-text">会员添加</span>
+                                <span class="menu-text">添加用户</span>
+                            </a>
+                        </li>
+                        {{end}}
+                        <li>
+                            <a href="/admin/user/editindex/{{.ID}}">
+                                <span class="menu-text">个人资料</span>
                             </a>
                         </li>
                     </ul>

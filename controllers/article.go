@@ -60,9 +60,9 @@ func (p *ArticleController) ArticleCreate() {
 	// 获取标签id数组
 	tagId := p.GetStrings("tag_id[]")
 	// 获取是否展示
-	//isShow, _ := p.GetInt("is_show")
+	isShow, _ := p.GetInt("is_show")
 	// 获取是否是否置顶
-	//isTop, _ := p.GetInt("is_top")
+	isTop, _ := p.GetInt("is_top")
 	// markdown 内容
 	htmlContent := p.GetString("editormd-html-code")
 	htmlContent = beego.Htmlquote(htmlContent) // 转义内容
@@ -76,8 +76,8 @@ func (p *ArticleController) ArticleCreate() {
 	a.Title = title
 	a.Author = author
 	a.CategoryId, _ = strconv.Atoi(categoryId)
-	//a.IsShow = isShow
-	//a.IsTop = isTop
+	a.IsShow = isShow
+	a.IsTop = isTop
 	a.Summary = summary
 	a.Content = content
 	a.HtmlContent = htmlContent
@@ -121,9 +121,10 @@ func (p *ArticleController) UploadEditorMdPic() {
 	// 日期字符串
 	dateStr := beego.Date(time.Now(), "Ymd")
 	// 创建文件夹
-	filePath := "./static/uploads/" + dateStr
-	if err1 := os.MkdirAll(filePath, 0777); err1 != nil { // 创建数据库目录
-		panic("failed" + err.Error())
+	uploadPath := beego.AppConfig.String("upload_article_pic_path")
+	filePath := uploadPath + dateStr
+	if err1 := os.MkdirAll(filePath, 0777); err1 != nil { // 创建上传目录
+		panic("failed" + err1.Error())
 	}
 	// folderPath := p.CreateDateDir("/static/uploads/")
 	// 移动文件到创建好的文件夹内
@@ -156,7 +157,7 @@ func (p *ArticleController) ArticleEditIndex() {
 	var r models.Result
 	models.Article{}.GetArticleById(id, &r)
 	r.Content = beego.Htmlunquote(r.Content)
-	r.Content = beego.HTML2str(r.Content)
+	/*r.Content = beego.HTML2str(r.Content)*/
 	// 分配到模板
 	p.Data["Article"] = r
 

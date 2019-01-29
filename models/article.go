@@ -7,6 +7,7 @@ import (
 
 type Article struct {
 	gorm.Model
+	// Slug string `gorm:"not null;size:15;"`
 	Category   Category `gorm:"ForeignKey:CategoryId"`
 	CategoryId int      `gorm:"index:category"` // 分类id
 	// Tag []Tag `gorm:"many2many:article_tags"` // 多对多，使用article_tags表连接
@@ -119,4 +120,19 @@ func (p Article) GetNewArticle(number int, r *[]Result) {
 
 func (p Article) GetArchives(r *[]Result) {
 	db.Model(&p).Order("created_at desc").Select("id, title, created_at").Scan(&r)
+}
+
+// 根据id取出一条文章信息
+func (p Article) GetArticleInfoById(id string, r *Result) {
+	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.html_content, a.content, a.created_at, b.category_name, c.tag_id").Joins("left join categories as b on b.id = a.category_id").Joins("left join article_tags as c on c.article_id = a.id").Where("a.id = ?", id).Scan(&r)
+}
+
+// 查询出当前分类下的文章
+func (p Article) GetArticleByCateName(categoryName string, r *[]Result, limitNum int) {
+	db.Table("articles as a").Select("a.id, a.title, a.created_at, b.category_name").Joins("left join categories as b on b.id = a.category_id").Where("b.category_name = ?", categoryName).Limit(limitNum).Scan(&r)
+}
+
+// 查询出拥有当前标签的文章
+func (p Article) GetArticleByCateId(categoryName string, r *[]Result, limitNum int) {
+	db.Table("articles as a").Select("a.id, a.title, a.created_at, b.category_name").Joins("left join article_tags as b on b.article_id = a.id").Joins("left join tags as c on b.").Where("b.category_name = ?", categoryName).Limit(limitNum).Scan(&r)
 }

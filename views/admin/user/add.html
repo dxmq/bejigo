@@ -1,0 +1,118 @@
+<link rel="stylesheet"href="/static/lib/icheck/skins/minimal/red.css" />
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-user"></i>&nbsp;用户中心
+            </li>
+            <li>
+                添加用户
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Body -->
+    <div class="page-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="widget radius-bordered">
+                    <div class="widget-header bordered-bottom bordered-themeprimary">
+                        <span class="widget-caption">用户添加</span>
+                    </div>
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="user_name" class="col-sm-2 control-label no-padding-right">用户名称</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="category_name" placeholder="请输入用户名称" name="user_name"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass_word" class="col-sm-2 control-label no-padding-right">密　码</label>
+                                <div class="col-sm-5">
+                                    <input type="password" class="form-control" id="password" placeholder="请输入的密码" name="pass_word"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label no-padding-right">邮　箱</label>
+                                <div class="col-sm-5">
+                                    <input type="email" class="form-control" id="email" placeholder="请输入邮箱" name="email"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="avatar" class="col-sm-2 control-label no-padding-right">头　像</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="avatar" placeholder="请输入头像链接地址，可以不填" name="avatar"/>
+                                </div>
+                            </div>
+                            <<div class="form-group">
+                                <label class="control-label col-sm-2">角　色</label>
+                                <div class="col-sm-5 input-group">
+                                    <label class="checkbox-inline i-checks">
+                                        <input type="radio" class="i-checks" name="role" value="1"> 超级管理员
+                                    </label>
+                                    <label class="checkbox-inline i-checks">
+                                        <input type="radio" class="i-checks" name="role" value="0" checked> 普通用户
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-primary" id="UserCreate">添加</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+<script src="/static/admin/js/jquery.min.js"></script>
+<script src="/static/lib/icheck/icheck.min.js" ></script>
+<script>
+    $(function () {
+        $("#author").val('h1ml');
+        $(".i-checks").iCheck({ // 引入icheck插件
+            checkboxClass: 'icheckbox_minimal-red',
+            radioClass: 'iradio_minimal-red',
+            labelHover: true,
+        });
+        $("#UserCreate").click(function () {
+            $.ajax({
+                url: "/admin/user/create",
+                type: "post",
+                data: $("form").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === 0) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 1000
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            icon: 5,
+                            anim: 6,
+                            title: "用户添加",
+                            content: data.msg
+                        })
+                    }
+                },error: function () {
+                    layer.open({
+                        icon: 5,
+                        anim: 6,
+                        content: "网络错误"
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
