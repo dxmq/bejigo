@@ -46,3 +46,9 @@ type UserDeleteId struct {
 func (p User) UserDelete(id string) error {
 	return db.Unscoped().Where("id = ?", id).Delete(&User{}).Error
 }
+
+// 前台
+// 取出超级管理员信息
+func (p User) GetSupperInfo(id, role string, u *User) {
+	db.Select("user_name, email").Where("id = ?", id).Where("role = ?", 1).Find(&u)
+}

@@ -145,7 +145,7 @@ func (p *BaseController) SubString(s string, pos, length int) string {
 }
 
 // 前台模板渲染
-func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl string) {
+func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl string, pageAlias string) {
 	// 取出最新文章
 	var newResult []models.Result
 	models.Article{}.GetNewArticle(5, &newResult)
@@ -162,7 +162,17 @@ func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl stri
 	var l []models.Link
 	models.Link{}.GetAllLink(&l)
 	p.Data["LinkInfo"] = l
-	p.Data["url"] = beego.URLFor("IndexController." + method)
+
+	if method != "Page" {
+		p.Data["url"] = beego.URLFor("IndexController." + method)
+	} else {
+		p.Data["url"] = pageAlias
+	}
+
+	// 取出单页面信息
+	var s []models.SinglePage
+	models.SinglePage{}.GetAllPage(&s)
+	p.Data["PagesInfo"] = s
 	p.Layout = "index/public/layout.html"
 	p.TplName = "index/" + tpl
 	if len(sectionTpl) != 0 {
@@ -216,4 +226,15 @@ func (p *BaseController) GetMd5String(s string) string {
 	h := md5.New()
 	h.Write([]byte(s))
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+/**
+ * 判断文件是否存在  存在返回 true 不存在返回false
+ */
+func (p *BaseController) checkFileIsExist(filename string) bool {
+	var exist = true
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		exist = false
+	}
+	return exist
 }

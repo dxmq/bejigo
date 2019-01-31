@@ -1,0 +1,128 @@
+<link rel="stylesheet" href="/static/lib/icheck/skins/minimal/red.css" />
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-pagelines"></i>&nbsp;单页面管理
+            </li>
+            <li>
+                页面编辑
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Body -->
+    <div class="page-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="widget radius-bordered">
+                    <div class="widget-header bordered-bottom bordered-themeprimary">
+                        <span class="widget-caption">页面编辑</span>
+                    </div>
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <input type="hidden" name="id" value="{{.ID}}">
+                            <div class="form-group">
+                                <label for="page_name" class="col-sm-2 control-label no-padding-right">页面名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="page_name" placeholder="页面名称" name="page_name" value="{{.SinglePage.PageName}}"/>
+                                </div>
+                                <p class="help-block">例如：关于</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="page_alias" class="col-sm-2 control-label no-padding-right">页面别名</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="page_alias" placeholder="页面别名" name="page_alias" value="{{.SinglePage.PageAlias}}"/>
+                                </div>
+                                <p class="help-block">请使用英文表示，例如：about。注意：不能是index和archives</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="page_icon_class" class="col-sm-2 control-label no-padding-right">页面图标类名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="page_icon_class" placeholder="页面图标类名称" name="page_icon_class" value="{{.SinglePage.PageIconClass}}"/>
+                                </div>
+                                <p class="help-block">例如：fa fa-user</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">是否显示</label>
+                                <div class="col-sm-6 input-group">
+                                    <label class="checkbox-inline i-checks">
+                                        <input type="radio" class="i-checks" name="is_show" value="1" {{if eq 1 .SinglePage.IsShow}}checked{{end}}> 是
+                                    </label>
+                                    <label class="checkbox-inline i-checks">
+                                        <input type="radio" class="i-checks" name="is_show" value="0" {{if eq 0 .SinglePage.IsShow}}checked{{end}}> 否
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sort" class="col-sm-2 control-label no-padding-right">排序</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="sort" placeholder="排序" name="sort" value="{{.SinglePage.Sort}}"/>
+                                </div>
+                                <p class="help-block">数字越大，越靠前！</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="content" class="control-label col-sm-2">页面内容</label>
+                                <div class="col-sm-7">
+                                    <textarea name="content" id="content" class="form-control" cols="100" rows="30">{{.SinglePage.Content}}</textarea>
+                                    <p class="help-block">请输入html</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-primary" id="CategoryCreate">编辑</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+<script src="/static/admin/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        $(".i-checks").iCheck({ // 引入icheck插件
+            checkboxClass: 'icheckbox_minimal-red',
+            radioClass: 'iradio_minimal-red',
+            labelHover: true,
+        });
+        $("#CategoryCreate").click(function () {
+            $.ajax({
+                url: "/admin/single/edit",
+                type: "post",
+                data: $("form").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === 0) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 1000
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            icon: 5,
+                            anim: 6,
+                            title: "页面编辑",
+                            content: data.msg
+                        })
+                    }
+                },error: function () {
+                    layer.open({
+                        icon: 5,
+                        anim: 6,
+                        content: "网络错误"
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>

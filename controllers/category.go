@@ -37,7 +37,7 @@ func (ctx *CategoryController) CategoryAddIndex() {
 func (ctx *CategoryController) CategoryCreate() {
 	ctx.MustLogin()
 	// 接收并验证数据
-	categoryName := ctx.GetMustAndInlen("category_name", "分类名称不能为空！", "分类名称长度在0-20个字符之间！", 20)
+	categoryName := ctx.GetMustAndInlen("category_name", "分类名称不能为空！", "分类名称长度在1-20个字符之间！", 20)
 	// 调用模型的CategoryCreate方法 完成添加
 	err := models.Category{}.CategoryCreate(categoryName)
 	if err != nil {
@@ -70,7 +70,7 @@ func (ctx *CategoryController) CategoryEditIndex() {
 func (ctx *CategoryController) CategoryEdit() {
 	ctx.MustLogin()
 	// 接收并验证数据
-	categoryName := ctx.GetMustAndInlen("category_name", "分类不能为空！", "分类长度在0-20个字符之间！", 20)
+	categoryName := ctx.GetMustAndInlen("category_name", "分类不能为空！", "分类长度在1-20个字符之间！", 20)
 	id := ctx.GetString("ID")
 	// 调用模型去编辑
 	var category models.Category

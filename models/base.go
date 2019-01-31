@@ -21,7 +21,7 @@ func init() {
 	if err != nil {
 		panic("连接数据库失败")
 	}
-	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{}, &Profile{})
+	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{}, &Profile{}, &SinglePage{})
 	var count int
 	// 如果user数据表里边没有数据，新增一条user记录
 	if err := db.Model(&User{}).Count(&count).Error; err == nil && count == 0 {

@@ -31,7 +31,7 @@ func (p *TagController) TagCreate() {
 // @router /admin/tag [post]
 func (p *TagController) TagStore() {
 	p.MustLogin()
-	name := p.GetMustAndInlen("name", "标签不能为空！", "标签长度在0-20个字符之间！", 20)
+	name := p.GetMustAndInlen("name", "标签不能为空！", "标签长度在1-20个字符之间！", 20)
 	var t models.Tag
 	t.Name = name
 	if err := models.AddTag(&t); err != nil {
@@ -74,7 +74,7 @@ func (p *TagController) TagShow() {
 // @router /admin/tag/edit [post]
 func (p *TagController) TagEdit() {
 	p.MustLogin()
-	name := p.GetMustAndInlen("name", "标签不能为空！", "标签长度在0-20个字符之间！", 20)
+	name := p.GetMustAndInlen("name", "标签不能为空！", "标签长度在1-20个字符之间！", 20)
 	id := p.GetString("ID")
 	var t models.Tag
 	if err := models.SaveTag(&t, id, name); err != nil {

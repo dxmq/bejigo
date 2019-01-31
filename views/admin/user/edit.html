@@ -41,6 +41,7 @@
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="avatar" placeholder="请输入头像链接地址，可以不填" name="avatar" value="{{.User.Avatar}}"/>
                                 </div>
+                                <p class="help-block">请输入头像链接地址，可以不填</p>
                             </div>
                             {{if eq 1 .Role}}
                             <div class="form-group">
@@ -55,6 +56,9 @@
                                 </div>
                             </div>
                             {{end}}
+                            <div class="col-sm-offset-7">
+                                <p class="help-block" style="color: #FF0000;">注意：资料修改后，重新登录后才能生效！</p>
+                            </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button type="button" class="btn btn-primary" id="UserCreate">编辑</button>

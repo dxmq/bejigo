@@ -33,7 +33,7 @@ func (p *LinkController) LinkAddIndex() {
  * 链接添加
  */
 func (p *LinkController) LinkCreate() {
-	linkName := p.GetMustAndInlen("link_name", "链接不能为空！", "链接长度在0-20个字符之间！", 20)
+	linkName := p.GetMustAndInlen("link_name", "链接不能为空！", "链接名称长度在1-20个字符之间！", 20)
 	linkUrl := p.GetMustString("link_url", "链接不能为空！")
 	var link models.Link
 	link.LinkName = linkName
@@ -67,7 +67,7 @@ func (p *LinkController) LinkEdit() {
 	p.MustLogin()
 	// 接收表单数据
 	id, _ := p.GetInt("id")
-	linkName := p.GetMustAndInlen("link_name", "链接不能为空！", "链接长度在0-20个字符之间！", 20)
+	linkName := p.GetMustAndInlen("link_name", "链接不能为空！", "链接名称长度在1-20个字符之间！", 20)
 	linkUrl := p.GetMustString("link_url", "链接不能为空！")
 
 	// 赋值给模型

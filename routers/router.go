@@ -10,9 +10,10 @@ func init() {
 
 	beego.Include(&controllers.UserController{})
 
-	beego.Include(&controllers.AdminController{})
-
 	beego.Include(&controllers.TagController{})
+
+	// 后台首页
+	beego.Router("/admin/index", &controllers.AdminController{}, "get:Index")
 
 	// 分类列表
 	beego.Router("/admin/category/list", &controllers.CategoryController{}, "get:CategoryList")
@@ -62,4 +63,13 @@ func init() {
 
 	// 删除链接
 	beego.Router("/admin/link/delete", &controllers.LinkController{}, "post:LinkDelete")
+
+	// 单页面相关
+	beego.Router("/admin/single/addindex", &controllers.SingleController{}, "get:AddPageIndex")
+	beego.Router("/admin/single/lst", &controllers.SingleController{}, "get:PageList")
+	beego.Router("/admin/single/add", &controllers.SingleController{}, "post:PageAdd")
+	beego.Router("/admin/single/editindex/:id", &controllers.SingleController{}, "get:EditPageIndex")
+	beego.Router("/admin/single/edit", &controllers.SingleController{}, "post:PageEdit")
+	beego.Router("/admin/single/delete", &controllers.SingleController{}, "post:PageDelete")
+	beego.Router("/admin/single/sort", &controllers.SingleController{}, "post:PageSort")
 }

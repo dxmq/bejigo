@@ -51,8 +51,8 @@ func (p *ArticleController) ArticleAddIndex() {
 func (p *ArticleController) ArticleCreate() {
 	p.MustLogin()
 	// 验证并接收表单数据
-	title := p.GetMustAndInlen("title", "标题不能为空！", "标题在0-40个字符之间！", 40)
-	author := p.GetMustAndInlen("author", "作者不能为空！", "作者在0-20个字符之间！", 20)
+	title := p.GetMustAndInlen("title", "标题不能为空！", "标题在1-40个字符之间！", 40)
+	author := p.GetMustAndInlen("author", "作者不能为空！", "作者在1-20个字符之间！", 20)
 
 	// 获取分类
 	categoryId := p.GetMustString("category_id", "分类不能为空！")
@@ -185,8 +185,8 @@ func (p *ArticleController) ArticleEdit() {
 	// 接收id
 	id, _ := p.GetInt("id")
 	// 接收其它表单数据
-	title := p.GetMustAndInlen("title", "标题不能为空！", "标题在0-40个字符之间！", 40)
-	author := p.GetMustAndInlen("author", "作者不能为空！", "作者在0-20个字符之间！", 20)
+	title := p.GetMustAndInlen("title", "标题不能为空！", "标题在1-40个字符之间！", 40)
+	author := p.GetMustAndInlen("author", "作者不能为空！", "作者在1-20个字符之间！", 20)
 	categoryId := p.GetMustString("category_id", "分类不能为空！")
 	cateId, _ := strconv.Atoi(categoryId) // 字符串转整型
 	tagId := p.GetStrings("tag_id[]")

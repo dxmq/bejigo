@@ -29,7 +29,9 @@
         <div id="nav-menu">
             <a href="/" {{if eq "/" .url}}class="current"{{end}}><i class="fa fa-home"> 首页</i></a>
             <a href="/archives" {{if eq "/archives" .url}}class="current"{{end}}><i class="fa fa-archive"> 归档</i></a>
-            <a href="/about" {{if eq "/about" .url}}class="current"{{end}}><i class="fa fa-user"> 关于</i></a>
+            {{range .PagesInfo}}
+            <a href="/{{.PageAlias}}" {{if eq  .PageAlias $.url}}class="current" {{end}}><i class="{{.PageIconClass}}"> {{.PageName}}</i></a>
+            {{end}}
             <a href="/atom"><i class="fa fa-rss"> 订阅</i></a>
         </div>
         <div id="search-form">
