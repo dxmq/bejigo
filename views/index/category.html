@@ -6,7 +6,7 @@
     <div class="archive-wrap tag-cat">
      <ul class="listing">
       {{range .ArticleByCate}}
-      <li><a href="/detail/{{.ID}}" title="javascript this"><span class="tite">{{date .CreatedAt "Y/m/d"}} {{.Title}}</span></a></li>
+      <li><a href="/detail/{{.ID}}" title="javascript this"><span class="tite">{{date .CreatedAt "Y/m/d H时i分"}} {{.Title}}</span></a></li>
       {{end}}
      </ul>
     </div>

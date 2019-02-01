@@ -36,23 +36,24 @@
         </div>
         <div id="search-form">
             <div id="result-mask" class="hide"></div>
-            <label> <input id="search-key" type="text" autocomplete="off" placeholder="Arama" /> </label>
+            <label> <input id="search-key" type="text" autocomplete="off" placeholder="Search" /> </label>
             <div id="result-wrap" class="hide">
                 <div id="search-result"></div>
             </div>
             <div class="hide">
                 <template id="search-tpl">
                     <div class="item">
-                        <a href="javascript:if(confirm(%27https://h7ml.cn/{path}  \n\nThis file was not retrieved by Teleport Ultra, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27https://h7ml.cn/{path}%27" tppabs="https://h7ml.cn/{path}" title="{title}">
+                        <a href="{path}" title="{title}">
                             <div class="title">
                                 {title}
                             </div>
                             <div class="time">
                                 {date}
                             </div>
-                            <div class="tags">
-                                {tags}
-                            </div> </a>
+                            <div class="tag">
+                                <i class="fa fa-gui" style="font-size: 12px"> {category}</i>
+                            </div>
+                        </a>
                     </div>
                 </template>
             </div>
@@ -69,7 +70,7 @@
                     </div>
                     <ul class="post-list">
                         {{range .NewArticle}}
-                            <li class="post-list-item"><code><a class="post-list-link" href="index-3.htm" tppabs="https://h7ml.cn/2018/05/24/js-this/">{{.Title}}</a></code></li>
+                            <li class="post-list-item"><code><a class="post-list-link" href="/detail/{{.ID}}">{{.Title}}</a></code></li>
                         {{end}}
                     </ul>
                 </div>
@@ -90,7 +91,7 @@
                     <div class="tagcloud">
                         <code>
                             {{range .TagData}}
-                                <a href="/tags/{{.Name}}" style="font-size: 15px;">{{.Name}}</a>
+                                <a href="/tags/{{.ID}}" style="font-size: 15px;">{{.Name}}</a>
                             {{end}}
                         </code>
                     </div>
@@ -125,13 +126,14 @@
     <code><a id="totop" href="#top"></a>
         <div id="footer">
             <div class="footer-info">
-                <p><a href="javascript:if(confirm(%27https://h7ml.cn/baidusitemap.xml  \n\nThis file was not retrieved by Teleport Ultra, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27https://h7ml.cn/baidusitemap.xml%27" tppabs="https://h7ml.cn/baidusitemap.xml">Baidu Site Haritası</a> | <a href="atom.xml.htm" tppabs="https://h7ml.cn/atom.xml">订阅</a> | <a href="index-2.htm" tppabs="https://h7ml.cn/about/">关于</a></p>
+                <p><a href="">Baidu Site Haritası</a> | <a href="atom.xml.htm" tppabs="https://h7ml.cn/atom.xml">订阅</a> | <a href="index-2.htm" tppabs="https://h7ml.cn/about/">关于</a></p>
                 <p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</p>
-                <p><span> Copyright &copy;<a href="index.htm" tppabs="https://h7ml.cn/." rel="nofollow">h7ml.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="javascript:if(confirm(%27https://github.com/chaooo/hexo-theme-BlueLake  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://github.com/chaooo/hexo-theme-BlueLake%27" tppabs="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Hosted by<a rel="nofollow" target="_blank" href="javascript:if(confirm(%27https://pages.coding.me/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27https://pages.coding.me/%27" tppabs="https://pages.coding.me/"> Coding Pages</a></span></p>
+                <p><span> Copyright &copy;<a href=""> BlueLake.</a></span><span> Hosted by<a rel="nofollow" target="_blank" href=""> Coding Pages</a></span></p>
             </div>
         </div>
     </code>
 </div>
+<script src="/static/admin/js/jquery.min.js"></script>
 <script type="text/javascript " src="/static/index/js/search.json.js-v=2.0.1.js"></script>
 <script type="text/javascript" src="/static/index/js/totop.js-v=2.0.1.js"></script>
 {{.Scripts}}

@@ -21,7 +21,7 @@
     function loadData(success) {
         if (!searchData) {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', './js/content.json', true);
+            xhr.open('GET', '/static/index/js/content.json.js', true);
             xhr.onload = function() {
                 if (this.status >= 200 && this.status < 300) {
                     var res = JSON.parse(this.response||this.responseText);
@@ -40,9 +40,7 @@
         }
     }
     function matcher(post, regExp) {
-        return regtest(post.title, regExp) || post.tags.some(function(tag) {
-            return regtest(tag.name, regExp);
-        }) || regtest(post.text, regExp);
+        return regtest(post.Title, regExp);
     }
     function regtest(raw, regExp) {
         regExp.lastIndex = 0;
@@ -53,12 +51,13 @@
         if (data.length) {
             html = data.map(function(post) {
                 return tpl(searchTpl, {
-                    title: post.title,
-                    path: post.path,
-                    date: new Date(post.date).toLocaleDateString(),
-                    tags: post.tags.map(function(tag) {
+                    title: post.Title,
+                    path: "/detail/" + post.ID,
+                    category: post.CategoryName,
+                    date: new Date(post.CreatedAt).toLocaleDateString(),
+                    /*tags: post.tags.map(function(tag) {
                         return '<span>' + tag.name + '</span>';
-                    }).join('')
+                    }).join('')*/
                 });
             }).join('');
         } else {

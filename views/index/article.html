@@ -32,7 +32,7 @@
         </div>
        </div>
        <div class="post-nav">
-        <a href="index-5.htm" tppabs="https://h7ml.cn/2018/05/23/js-Array-method/" class="next">javascript数组方法总结</a>
+        <a href="{{if .NextArticle.ID}}/detail/{{.NextArticle.ID}}{{else}}javascript:void(0){{end}}" class="next">{{if .NextArticle.ID}}{{.NextArticle.Title}}{{else}}emmm没有了{{end}}</a>
        </div>
        <div id="comments">
         <div id="lv-container" data-id="city" data-uid="MTAyMC80MjMxOC8xODg2NQ=="></div>

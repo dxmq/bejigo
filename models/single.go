@@ -41,7 +41,7 @@ type PageDeleteId struct {
 
 // 删除单页面
 func (p SinglePage) PageDelete(id string) error {
-	return db.Unscoped().Where("id = ?", id).Delete(&SinglePage{}).Error
+	return db.Where("id = ?", id).Delete(&SinglePage{}).Error
 }
 
 type PageSort struct {
@@ -52,6 +52,11 @@ type PageSort struct {
 // 页面排序
 func (p SinglePage) PageSort(id, sort string) error {
 	return db.Model(SinglePage{}).Where("id = ?", id).Update("sort", sort).Error
+}
+
+// 根据id取出页面别名
+func (p SinglePage) GetPageAliasById(id string, s *SinglePage) {
+	db.Select("page_alias").Where("id = ?", id).Find(&s)
 }
 
 // 前台

@@ -5,8 +5,10 @@ import (
 	"bego/syserrors"
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"github.com/astaxie/beego"
+	"io"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -35,7 +37,7 @@ func (p *BaseController) ReturnJson(msg, url string) {
 	p.ServeJSON()
 }
 
-// 返回json数据
+// 返回json提示信息
 func (p *BaseController) ReturnJsonCode(msg string) {
 	p.Data["json"] = map[string]interface{}{
 		"code": 0,
@@ -144,8 +146,21 @@ func (p *BaseController) SubString(s string, pos, length int) string {
 	return string(runes[pos:l])
 }
 
+// 初始化搜索数据，用于前台搜索
+func (p *BaseController) initSearchData() {
+	var searchData []models.Search
+	models.Article{}.GetArticleDataForSearch(&searchData)
+	//content, err := json.MarshalIndent(a, "", "")
+	content, _ := json.Marshal(searchData)
+	fileName := "./static/index/js/content.json.js"
+	f, _ := os.Create(fileName)
+	io.WriteString(f, string(content))
+}
+
 // 前台模板渲染
 func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl string, pageAlias string) {
+	// 初始化搜索数据，用于前台搜索
+	p.initSearchData()
 	// 取出最新文章
 	var newResult []models.Result
 	models.Article{}.GetNewArticle(5, &newResult)

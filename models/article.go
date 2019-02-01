@@ -8,8 +8,7 @@ import (
 type Article struct {
 	gorm.Model
 	// Slug string `gorm:"not null;size:15;"`
-	Category   Category `gorm:"ForeignKey:CategoryId"`
-	CategoryId int      `gorm:"index:category"` // 分类id
+	CategoryId int `gorm:"index:category"` // 分类id
 	// Tag []Tag `gorm:"many2many:article_tags"` // 多对多，使用article_tags表连接
 	Title       string `gorm:"size:40;not null;unique;unique_index;"` // 标题
 	Author      string `gorm:"size:20;not null;index:author;"`        // 作者
@@ -47,6 +46,13 @@ type Result struct {
 	Summary      string
 	Content      string
 	HtmlContent  string
+}
+
+type Search struct {
+	ID           uint
+	CategoryName string
+	Title        string
+	CreatedAt    time.Time
 }
 
 type Page struct {
@@ -129,10 +135,20 @@ func (p Article) GetArticleInfoById(id string, r *Result) {
 
 // 查询出当前分类下的文章
 func (p Article) GetArticleByCateName(categoryName string, r *[]Result, limitNum int) {
-	db.Table("articles as a").Select("a.id, a.title, a.created_at, b.category_name").Joins("left join categories as b on b.id = a.category_id").Where("b.category_name = ?", categoryName).Limit(limitNum).Scan(&r)
+	db.Table("articles as a").Select("a.id, a.title, a.created_at, b.category_name").Joins("left join categories as b on b.id = a.category_id").Where("b.category_name = ?", categoryName).Where("a.is_show = ?", 1).Order("a.created_at desc").Limit(limitNum).Scan(&r)
 }
 
-// 查询出拥有当前标签的文章
-func (p Article) GetArticleByCateId(categoryName string, r *[]Result, limitNum int) {
-	db.Table("articles as a").Select("a.id, a.title, a.created_at, b.category_name").Joins("left join article_tags as b on b.article_id = a.id").Joins("left join tags as c on b.").Where("b.category_name = ?", categoryName).Limit(limitNum).Scan(&r)
+// 通过article_ids查询出文章
+func (p Article) GetArticleByArticleId(id string, r *[]Result, limitNum int) {
+	db.Raw("SELECT id, title, created_at FROM articles WHERE id in (" + id + ") AND is_show = 1 ORDER BY created_at desc").Limit(limitNum).Scan(&r)
+}
+
+// 取出当前文章的下一篇文章
+func (p Article) GetNextArticle(id uint, a *Article) {
+	db.Select("id, title").Where("id > ?", id).Where("is_show = ?", 1).Find(&a).Limit(1)
+}
+
+// 搜索功能，取出所有文章的id,title,created_at
+func (p Article) GetArticleDataForSearch(s *[]Search) {
+	db.Table("articles as a").Select("a.id, a.title, a.created_at, b.category_name").Joins("left join categories as b on b.id = a.category_id").Where("a.is_show = ?", 1).Order("a.created_at desc").Scan(&s)
 }

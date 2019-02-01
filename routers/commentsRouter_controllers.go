@@ -55,7 +55,7 @@ func init() {
 	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "Tags",
-			Router:           `/tags/:tagName`,
+			Router:           `/tags/:id`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,

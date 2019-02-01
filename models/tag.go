@@ -39,3 +39,9 @@ func DeleteTagById(id string) error {
 func (p Tag) GetTags(t *[]Tag, id string) {
 	db.Raw("select * from tags where id in(" + id + ")").Scan(&t)
 }
+
+// 前台相关
+// 根据标签id查询出标签名称
+func (p Tag) GetTagNameById(id string, t *Tag) {
+	db.Select("name").Where("id = ?", id).Find(&t)
+}

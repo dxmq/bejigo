@@ -26,8 +26,8 @@ func (p *ArticleController) ArticleList() {
 	page := p.Ctx.Input.Param(":page")
 	pg, _ := strconv.Atoi(page)
 	count := a.GetAllCount()
-	a.GetAllArticleByPage(&r, 2, pg)
-	Page := a.PageUtil(count, pg, 2, r)
+	a.GetAllArticleByPage(&r, 10, pg)
+	Page := a.PageUtil(count, pg, 10, r)
 	// assign到页面
 	p.Data["Page"] = Page
 	// 显示文章列表页
@@ -69,7 +69,7 @@ func (p *ArticleController) ArticleCreate() {
 	// content 内容
 	content := p.GetMustString("content", "内容不能为空")
 	// summary 内容
-	summary := beego.Substr(content, 0, 200)
+	summary := beego.Substr(content, 0, 150)
 
 	// 赋值给模型
 	var a models.Article
@@ -99,6 +99,7 @@ func (p *ArticleController) ArticleCreate() {
 			at.TagId = tagIds
 			at.ArticleId = a.ID
 			models.ArticleTag{}.ArticleTagAdd(&at)
+
 			// 提示并跳转
 			p.ReturnJson("添加成功！", "/admin/article/list/1")
 		} else {
@@ -195,7 +196,7 @@ func (p *ArticleController) ArticleEdit() {
 	htmlContent := p.GetString("editormd-html-code")
 	htmlContent = beego.Htmlquote(htmlContent) // html转义
 	content := p.GetMustString("content", "内容不能为空！")
-	summary := beego.Substr(content, 0, 200)
+	summary := beego.Substr(content, 0, 150)
 
 	// 赋值给结构体
 	var a models.Article

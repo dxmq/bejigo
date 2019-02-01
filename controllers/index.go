@@ -4,6 +4,8 @@ import (
 	"bego/models"
 	"io"
 	"os"
+	"strconv"
+	"strings"
 )
 
 type IndexController struct {
@@ -40,6 +42,10 @@ func (c *IndexController) ArticleDetail() {
 	models.Tag{}.GetTags(&t, r.TagId)
 	c.Data["Detail"] = r
 	c.Data["Tag"] = t
+	// 取出下一篇文章
+	var a models.Article
+	models.Article{}.GetNextArticle(r.ID, &a)
+	c.Data["NextArticle"] = a
 	c.IndexCommTpl("Index", "article.html", "", "")
 }
 
@@ -57,13 +63,30 @@ func (c *IndexController) Categories() {
 }
 
 // 某个标签下的文章
-// @router /tags/:tagName [get]
+// @router /tags/:id [get]
 func (c *IndexController) Tags() {
-	// 获取tagName
-	/*tagName := c.Ctx.Input.Param(":tagName")
-	// 根据tagName查询出文章
-	var r []models.Result*/
-
+	// 获取标签id
+	id := c.Ctx.Input.Param(":id")
+	// 根据标签id查询出标签名称
+	var t models.Tag
+	models.Tag{}.GetTagNameById(id, &t)
+	c.Data["TagName"] = t.Name
+	// 根据tag_id查询出文章id
+	var at []models.ArticleTag
+	models.ArticleTag{}.GetAllTagId(&at)
+	var r []models.Result
+	var str = ""
+	for _, v := range at {
+		if strings.Index(v.TagId, id) != -1 {
+			articleId := strconv.Itoa(int(v.ArticleId))
+			// 根据articleId查询出文章信息
+			str += articleId + ","
+			articleId = strings.Trim(str, ",")
+			models.Article{}.GetArticleByArticleId(articleId, &r, 10)
+		}
+	}
+	c.Data["ArticleByTag"] = r
+	//models.Article{}.GetArticleByTagId()
 	c.IndexCommTpl("Archives", "tag.html", "", "")
 }
 

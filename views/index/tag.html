@@ -1,12 +1,12 @@
 <div class="layout-l">
  <div class="content_container">
   <div class="post">
-   <h1 class="label-title">正在查看<i class="fa fa-gui">{{.CategoryName}}</i>下的文章</h1>
+   <h1 class="label-title">正在查看拥有<i class="fa fa-biao">{{.TagName}}</i>标签的文章</h1>
    <div class="post-archive">
     <div class="archive-wrap tag-cat">
      <ul class="listing">
-      {{range .ArticleByCate}}
-      <li><a href="/detail/{{.ID}}" title="javascript this"><span class="tite">{{date .CreatedAt "Y/m/d"}} {{.Title}}</span></a></li>
+      {{range .ArticleByTag}}
+      <li><a href="/detail/{{.ID}}" title="javascript this"><span class="tite">{{date .CreatedAt "Y/m/d H时i分"}} {{.Title}}</span></a></li>
       {{end}}
      </ul>
     </div>

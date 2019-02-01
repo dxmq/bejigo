@@ -5,6 +5,7 @@ import (
 	"bego/syserrors"
 	"encoding/json"
 	"errors"
+	"os"
 	"strconv"
 )
 
@@ -40,7 +41,7 @@ func (p *SingleController) PageAdd() {
 	isShow, _ := p.GetInt("is_show")
 	Sort, err1 := p.GetInt("sort")
 	if err1 != nil {
-		p.About500(errors.New("排序只能是正整数！"))
+		p.About500(errors.New("排序不能为空，且只能是正整数！"))
 	}
 	content := p.GetMustString("content", "页面内容不能为空！")
 	pageIconClass := p.GetMustAndInlen("page_icon_class", "页面图标类名称！", "页面图标类名称长度在15个字符之间", 15)
@@ -83,7 +84,7 @@ func (p *SingleController) PageEdit() {
 	pageAlias := p.GetMustAndInlen("page_alias", "页面别名不能空！", "页面别名的长度在1-15个字符之间", 15)
 	Sort, err1 := p.GetInt("sort")
 	if err1 != nil {
-		p.About500(errors.New("排序只能是正整数！"))
+		p.About500(errors.New("排序不能为空，且只能是正整数！"))
 	}
 	isShow, _ := p.GetInt("is_show")
 	content := p.GetMustString("content", "页面内容不能为空！")
@@ -113,6 +114,11 @@ func (p *SingleController) PageDelete() {
 	p.MustLogin()
 	var id models.PageDeleteId
 	if err := json.Unmarshal(p.Ctx.Input.RequestBody, &id); err == nil {
+		// 删除数据表中数据的同时删除创建的文件
+		// 根据id查询出PageAlias
+		var s models.SinglePage
+		models.SinglePage{}.GetPageAliasById(id.Id, &s)
+		os.Remove("./views/index/" + s.PageAlias + ".html")
 		err = models.SinglePage{}.PageDelete(id.Id)
 		if err == nil {
 			p.ReturnJsonCode("删除成功")
