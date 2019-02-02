@@ -46,7 +46,7 @@ type CateAndArticleNum struct {
 // 前台
 // 取出所有分类及当前分类下的文章数目
 func (c Category) GetAllCateAndNum() (cate []CateAndArticleNum) {
-	db.Model(&c).Select("id, category_name").Scan(&cate)
+	db.Model(&c).Select("id, category_name").Order("created_at desc").Scan(&cate)
 	for inx, v := range cate {
 		categoryId := strconv.Itoa(int(v.Id))
 		var count int

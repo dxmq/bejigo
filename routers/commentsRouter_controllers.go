@@ -18,8 +18,8 @@ func init() {
 
 	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
 		beego.ControllerComments{
-			Method:           "Page",
-			Router:           `/:pageAlias`,
+			Method:           "Archives",
+			Router:           `/archives`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -27,8 +27,8 @@ func init() {
 
 	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
 		beego.ControllerComments{
-			Method:           "Archives",
-			Router:           `/archives`,
+			Method:           "ArchivesByMY",
+			Router:           `/archives/:monthYear`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -47,6 +47,15 @@ func init() {
 		beego.ControllerComments{
 			Method:           "ArticleDetail",
 			Router:           `/detail/:id`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+		beego.ControllerComments{
+			Method:           "Page",
+			Router:           `/page/:pageAlias`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,

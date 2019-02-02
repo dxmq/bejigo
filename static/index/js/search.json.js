@@ -53,6 +53,7 @@
                 return tpl(searchTpl, {
                     title: post.Title,
                     path: "/detail/" + post.ID,
+                    catepath: "/categories/" + post.CategoryName,
                     category: post.CategoryName,
                     date: new Date(post.CreatedAt).toLocaleDateString(),
                     /*tags: post.tags.map(function(tag) {

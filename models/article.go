@@ -119,9 +119,14 @@ func (p Article) GetArticleData(pageSize int, r *[]Result) {
 	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.created_at, a.summary, b.category_name").Where("is_show = ?", 1).Order("a.is_top desc").Order("a.created_at desc").Joins("left join categories as b on b.id = a.category_id").Limit(pageSize).Scan(&r)
 }
 
+type NewArticle struct {
+	ID    uint
+	Title string
+}
+
 // 取出最新的文章
-func (p Article) GetNewArticle(number int, r *[]Result) {
-	db.Model(&p).Order("created_at desc").Select("id, title").Scan(&r)
+func (p Article) GetNewArticle(number int, na *[]NewArticle) {
+	db.Model(&p).Order("created_at desc").Select("id, title").Limit(5).Scan(&na)
 }
 
 func (p Article) GetArchives(r *[]Result) {
@@ -130,7 +135,13 @@ func (p Article) GetArchives(r *[]Result) {
 
 // 根据id取出一条文章信息
 func (p Article) GetArticleInfoById(id string, r *Result) {
-	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.html_content, a.content, a.created_at, b.category_name, c.tag_id").Joins("left join categories as b on b.id = a.category_id").Joins("left join article_tags as c on c.article_id = a.id").Where("a.id = ?", id).Scan(&r)
+	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.html_content, a.content, a.created_at, a.author, b.category_name, c.tag_id").Joins("left join categories as b on b.id = a.category_id").Joins("left join article_tags as c on c.article_id = a.id").Where("a.id = ?", id).Scan(&r)
+}
+
+type ArticleArch struct {
+	ID        uint
+	Title     string
+	CreatedAt time.Time
 }
 
 // 查询出当前分类下的文章
@@ -139,8 +150,8 @@ func (p Article) GetArticleByCateName(categoryName string, r *[]Result, limitNum
 }
 
 // 通过article_ids查询出文章
-func (p Article) GetArticleByArticleId(id string, r *[]Result, limitNum int) {
-	db.Raw("SELECT id, title, created_at FROM articles WHERE id in (" + id + ") AND is_show = 1 ORDER BY created_at desc").Limit(limitNum).Scan(&r)
+func (p Article) GetArticleByArticleId(id string, ar *[]ArticleArch, limitNum int) {
+	db.Raw("SELECT id, title, created_at FROM articles WHERE id in (" + id + ") AND is_show = 1 ORDER BY created_at desc").Limit(limitNum).Scan(&ar)
 }
 
 // 取出当前文章的下一篇文章
@@ -151,4 +162,14 @@ func (p Article) GetNextArticle(id uint, a *Article) {
 // 搜索功能，取出所有文章的id,title,created_at
 func (p Article) GetArticleDataForSearch(s *[]Search) {
 	db.Table("articles as a").Select("a.id, a.title, a.created_at, b.category_name").Joins("left join categories as b on b.id = a.category_id").Where("a.is_show = ?", 1).Order("a.created_at desc").Scan(&s)
+}
+
+type CreatedAt struct {
+	ID        uint
+	CreatedAt time.Time
+}
+
+// 获取所有的文章的添加时间
+func (p Article) GetArticleCreateTime(ct *[]CreatedAt) {
+	db.Table("articles").Select("id, created_at").Where("is_show = ?", 1).Scan(&ct)
 }

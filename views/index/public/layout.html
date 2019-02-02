@@ -6,9 +6,9 @@
     <meta content="yes" name="apple-mobile-web-app-capable" />
     <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
     <meta content="telephone=no" name="format-detection" />
-    <meta name="description" content="h1ml-愿你岁月无波澜，敬我余生不悲欢。" />
-    <meta name="keywords" content="h1ml-愿你岁月无波澜，敬我余生不悲欢。" />
-    <title>h1ml | 愿你岁月无波澜，敬我余生不悲欢。</title>
+    <meta name="description" content="{{.SystemData.WebDescription}}" />
+    <meta name="keywords" content="{{.SystemData.WebKeywords}}" />
+    <title>{{.PageTitle}}</title>
     <link rel="stylesheet" type="text/css" href="/static/index/css/css-family=Source+Code+Pro-1.css" />
     <link rel="stylesheet" type="text/css" href="/static/index/css/style.css-v=2.0.1.css" />
     <link rel="stylesheet" type="text/css" href="/static/index/css/highlight.css-v=2.0.1.css" />
@@ -22,15 +22,15 @@
 <div class="body_container">
     <div id="header">
         <div class="site-name">
-            <h1 class="hidden">h1ml</h1>
-            <a id="logo" href="index.htm" tppabs="https://h1ml.com/.">h1ml</a>
+            <h1 class="hidden">{{.SystemData.WebName}}</h1>
+            <a id="logo" href="/">{{.SystemData.WebName}}</a>
             <p class="description">愿你岁月无波澜，敬我余生不悲欢。</p>
         </div>
         <div id="nav-menu">
             <a href="/" {{if eq "/" .url}}class="current"{{end}}><i class="fa fa-home"> 首页</i></a>
             <a href="/archives" {{if eq "/archives" .url}}class="current"{{end}}><i class="fa fa-archive"> 归档</i></a>
             {{range .PagesInfo}}
-            <a href="/{{.PageAlias}}" {{if eq  .PageAlias $.url}}class="current" {{end}}><i class="{{.PageIconClass}}"> {{.PageName}}</i></a>
+            <a href="/page/{{.PageAlias}}" {{if eq  .PageAlias $.url}}class="current" {{end}}><i class="{{.PageIconClass}}"> {{.PageName}}</i></a>
             {{end}}
             <a href="/atom"><i class="fa fa-rss"> 订阅</i></a>
         </div>
@@ -50,6 +50,8 @@
                             <div class="time">
                                 {date}
                             </div>
+                        </a>
+                        <a href="{catepath}" title="{category}">
                             <div class="tag">
                                 <i class="fa fa-gui" style="font-size: 12px"> {category}</i>
                             </div>
@@ -80,7 +82,7 @@
                     </div>
                     <ul class="category-list">
                         {{range .CategoryData}}
-                            <li class="category-list-item"><code><a class="category-list-link" href="/categories/{{.CategoryName}}">{{.CategoryName}}</a><span class="category-list-count">{{.Number}}</span></code></li>
+                            <li class="category-list-item"><code><a class="category-list-link" href="/categories/{{replace .CategoryName " " "" -1}}">{{.CategoryName}}</a><span class="category-list-count">{{.Number}}</span></code></li>
                         {{end}}
                     </ul>
                 </div>
@@ -101,8 +103,9 @@
                         <code><i class="fa fa-archive"> 归档</i></code>
                     </div>
                     <ul class="archive-list">
-                        <li class="archive-list-item"><code><a class="archive-list-link" href="index-15.htm" tppabs="https://h7ml.cn/archives/2018/05/">五月 2018</a></code></li>
-                        <li class="archive-list-item"><code><a class="archive-list-link" href="index-16.htm" tppabs="https://h7ml.cn/archives/2018/04/">四月 2018</a></code></li>
+                        {{range $index, $my := .monthYear}}
+                        <li class="archive-list-item"><code><a class="archive-list-link" href="/archives/{{replace $my " " "" -1}}">{{$my}}</a></code></li>
+                        {{end}}
                     </ul>
                 </div>
                 <div class="widget">
@@ -126,15 +129,14 @@
     <code><a id="totop" href="#top"></a>
         <div id="footer">
             <div class="footer-info">
-                <p><a href="">Baidu Site Haritası</a> | <a href="atom.xml.htm" tppabs="https://h7ml.cn/atom.xml">订阅</a> | <a href="index-2.htm" tppabs="https://h7ml.cn/about/">关于</a></p>
-                <p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</p>
-                <p><span> Copyright &copy;<a href=""> BlueLake.</a></span><span> Hosted by<a rel="nofollow" target="_blank" href=""> Coding Pages</a></span></p>
+                <p><span> Copyright &copy;{{.SystemData.CopyRight}}</span><span>Language：<a rel="nofollow" target="_blank" href="https://studygolang.com/">Golang</a></span><span>Framework：<a rel="nofollow" target="_blank" href="https://beego.me/">Beego</a></span></p>
+                <p>备案号：<i id="busuanzi_container_site_pv">{{.SystemData.RecordNumber}}</i></p>
             </div>
         </div>
     </code>
 </div>
 <script src="/static/admin/js/jquery.min.js"></script>
-<script type="text/javascript " src="/static/index/js/search.json.js-v=2.0.1.js"></script>
+<script type="text/javascript " src="/static/index/js/search.json.js"></script>
 <script type="text/javascript" src="/static/index/js/totop.js-v=2.0.1.js"></script>
 {{.Scripts}}
 </body>

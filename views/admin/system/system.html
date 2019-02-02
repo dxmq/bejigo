@@ -1,0 +1,119 @@
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-home"></i>&nbsp;系统设置
+            </li>
+            <li>
+                设置
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Body -->
+    <div class="page-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="widget radius-bordered">
+                    <div class="widget-header bordered-bottom bordered-themeprimary">
+                        <span class="widget-caption">设置</span>
+                    </div>
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <input type="hidden" name="id" value="{{.SystemInfo.ID}}">
+                            <div class="form-group">
+                                <label for="web_name" class="col-sm-2 control-label no-padding-right">网站名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="web_name" placeholder="网站名称" name="web_name" value="{{.SystemInfo.WebName}}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="record_number" class="col-sm-2 control-label no-padding-right">备案号</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="record_number" placeholder="备案号" name="record_number" value="{{.SystemInfo.RecordNumber}}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="copy_right" class="col-sm-2 control-label no-padding-right">版权信息</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="copy_right" placeholder="版权信息" name="copy_right" value="{{.SystemInfo.CopyRight}}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="default_author" class="col-sm-2 control-label no-padding-right">默认作者</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="default_author" placeholder="默认作者" value="{{.SystemInfo.DefaultAuthor}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="web_title" class="control-label col-sm-2 no-padding-right">网站标题</label>
+                                <div class="col-sm-6">
+                                    <textarea name="web_title" id="web_title" cols="60" rows="3">{{.SystemInfo.WebTitle}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="web_keywords" class="control-label col-sm-2 no-padding-right">网站关键字</label>
+                                <div class="col-sm-6">
+                                    <textarea name="web_keywords" id="web_keywords" cols="60" rows="3">{{.SystemInfo.WebKeywords}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="web_description" class="control-label col-sm-2 no-padding-right">网站描述</label>
+                                <div class="col-sm-6">
+                                    <textarea name="web_description" id="web_description" cols="60" rows="3">{{.SystemInfo.WebDescription}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-primary" id="systemEdit">提交保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<script src="/static/admin/js/jquery.min.js"></script>
+<!-- /Page Content -->
+<script>
+    $(function () {
+        $("#systemEdit").click(function () {
+            $.ajax({
+                url: "/admin/system/save",
+                type: 'post',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code === 0) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 1000
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            icon: 5,
+                            anim: 6,
+                            title: '系统设置',
+                            content: data.msg
+                        });
+                    }
+                }, error: function () {
+                    layer.open({
+                        icon: 5,
+                        anim: 6,
+                        title: '系统设置',
+                        content: '网络错误！'
+                    });
+                }
+            });
+            return false;
+        });
+    })
+</script>

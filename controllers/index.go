@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bego/models"
+	"github.com/astaxie/beego"
 	"io"
 	"os"
 	"strconv"
@@ -18,7 +19,7 @@ func (c *IndexController) Index() {
 	var r []models.Result
 	models.Article{}.GetArticleData(5, &r) // 取出最新的5条数据
 	c.Data["Article"] = r
-	c.IndexCommTpl("Index", "index.html", "", "")
+	c.IndexCommTpl("Index", "index.html", "", "", "愿你岁月无波澜，敬我余生不悲欢。")
 }
 
 // @router /archives [get]
@@ -27,7 +28,41 @@ func (c *IndexController) Archives() {
 	var r []models.Result
 	models.Article{}.GetArchives(&r)
 	c.Data["Archives"] = r
-	c.IndexCommTpl("Archives", "archives.html", "", "")
+	c.IndexCommTpl("Archives", "archives.html", "", "", "归档")
+}
+
+// 按年月归档
+// @router /archives/:monthYear [get]
+func (c *IndexController) ArchivesByMY() {
+	// 接收monthYear
+	monthYear := c.Ctx.Input.Param(":monthYear")
+	// 取出年份
+	myRune := []rune(monthYear)
+	year := string(myRune[3:7])
+	if len(year) == 0 {
+		year = "2019"
+	}
+	// 取出月份
+	month := beego.Substr(monthYear, 0, 2)
+
+	// 查询出所有文章的添加时间
+	var ct []models.CreatedAt
+	models.Article{}.GetArticleCreateTime(&ct)
+	var articleIds = ""
+	for _, v := range ct {
+		armonth := beego.Date(v.CreatedAt, "m")
+		if armonth == month {
+			Id := int(v.ID)
+			articleIds += strconv.Itoa(Id) + ","
+		}
+	}
+	// 根据article_id查询出文章信息
+	articleIds = strings.Trim(articleIds, ",")
+	var ar []models.ArticleArch
+	models.Article{}.GetArticleByArticleId(articleIds, &ar, 10)
+	c.Data["ArticleByMY"] = ar
+	c.Data["ArchivesYear"] = year
+	c.IndexCommTpl("Archives", "archivesbymonth.html", "", "", "归档")
 }
 
 // 文章详情
@@ -46,7 +81,7 @@ func (c *IndexController) ArticleDetail() {
 	var a models.Article
 	models.Article{}.GetNextArticle(r.ID, &a)
 	c.Data["NextArticle"] = a
-	c.IndexCommTpl("Index", "article.html", "", "")
+	c.IndexCommTpl("Index", "article.html", "", "", r.Title)
 }
 
 //某个分类下的文章
@@ -59,7 +94,7 @@ func (c *IndexController) Categories() {
 	models.Article{}.GetArticleByCateName(categoryName, &r, 10)
 	c.Data["ArticleByCate"] = r
 	c.Data["CategoryName"] = categoryName
-	c.IndexCommTpl("Archives", "category.html", "", "")
+	c.IndexCommTpl("Archives", "category.html", "", "", categoryName)
 }
 
 // 某个标签下的文章
@@ -74,38 +109,43 @@ func (c *IndexController) Tags() {
 	// 根据tag_id查询出文章id
 	var at []models.ArticleTag
 	models.ArticleTag{}.GetAllTagId(&at)
-	var r []models.Result
+	var ar []models.ArticleArch
 	var str = ""
 	for _, v := range at {
 		if strings.Index(v.TagId, id) != -1 {
 			articleId := strconv.Itoa(int(v.ArticleId))
 			// 根据articleId查询出文章信息
 			str += articleId + ","
-			articleId = strings.Trim(str, ",")
-			models.Article{}.GetArticleByArticleId(articleId, &r, 10)
 		}
 	}
-	c.Data["ArticleByTag"] = r
+	articleIds := strings.Trim(str, ",")
+	models.Article{}.GetArticleByArticleId(articleIds, &ar, 10)
+	c.Data["ArticleByTag"] = ar
 	//models.Article{}.GetArticleByTagId()
-	c.IndexCommTpl("Archives", "tag.html", "", "")
+	c.IndexCommTpl("Archives", "tag.html", "", "", "标签")
 }
 
-var f *os.File
-var err1 error
-
 //某个页面
-// @router /:pageAlias [get]
+// @router /page/:pageAlias [get]
 func (c *IndexController) Page() {
 	// pageName
 	pageAlias := c.Ctx.Input.Param(":pageAlias")
 	// 根据分类名称查询出当前分类下的文章
 	var s models.SinglePage
 	models.SinglePage{}.GetPageByCateName(pageAlias, &s)
-	// 创建目录和文件
-	pagePath := "./views/index/"
-	fileName := pagePath + pageAlias + ".html"
-	f, err1 = os.Create(fileName)
-	io.WriteString(f, s.Content)
-	defer f.Close()
-	c.IndexCommTpl("Page", pageAlias+".html", "", pageAlias)
+
+	// 查询出所有的pageAlias
+	var sg []models.SinglePage
+	models.SinglePage{}.GetAllPageAlias(&sg)
+	for _, v := range sg {
+		if v.PageAlias == pageAlias {
+			// 创建文件
+			pagePath := "./views/index/"
+			fileName := pagePath + pageAlias + ".html"
+			f, _ := os.Create(fileName)
+			io.WriteString(f, s.Content)
+			defer f.Close()
+		}
+	}
+	c.IndexCommTpl("Page", pageAlias+".html", "", pageAlias, s.PageName)
 }

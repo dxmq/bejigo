@@ -5,7 +5,7 @@
        <h1 class="post-title">{{.Detail.Title}}</h1>
        <div class="post-meta">
         <a href="/detail/{{.Detail.ID}}#comments" class="comment-count"></a>
-        <p><span class="date">{{date .Detail.CreatedAt "Y-m-d"}}</span><span><a href="/categories/{{.Detail.CategoryName}}" class="category">{{.Detail.CategoryName}}</a></span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p>
+        <p><span class="date">{{date .Detail.CreatedAt "Y-m-d"}}</span><span><a href="/categories/{{.Detail.CategoryName}}" class="category">{{.Detail.CategoryName}}</a></span><span class="fa fa-user"> {{.Detail.Author}}</span> <span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p>
        </div>
        <div class="post-content" id="doc-content">
          <textarea style="display: none;">{{.Detail.Content}}</textarea>
@@ -18,7 +18,7 @@
        </div>
        <div class="post-share">
         <div class="bdsharebuttonbox">
-         <span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span>
+         <span style="float:left;line-height: 28px;height: 28px;font-size:16px;">分享到：</span>
          <a href="#" data-cmd="more" class="bds_more"></a>
          <a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a>
          <a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a>

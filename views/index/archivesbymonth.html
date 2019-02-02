@@ -3,12 +3,12 @@
       <div class="post">
        <div class="post-archive">
         <div class="archive-wrap">
-         <h2>2019</h2>
-         {{range .Archives}}
+         <h2>{{.ArchivesYear}}</h2>
           <ul class="listing">
+           {{range .ArticleByMY}}
           <li><a href="/detail/{{.ID}}" title="{{.Title}}"><span class="date">{{date .CreatedAt "m月d日"}}</span><span class="tite">{{.Title}}</span></a></li>
+           {{end}}
          </ul>
-         {{end}}
         </div>
        </div>
       </div>

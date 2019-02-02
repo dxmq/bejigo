@@ -11,8 +11,9 @@ import (
 	"io"
 	"math/rand"
 	"os"
-	"path/filepath"
+	"reflect"
 	"regexp"
+	"strings"
 	"time"
 	"unicode/utf8"
 )
@@ -54,8 +55,6 @@ func (p *BaseController) ReturnJsonNoUrl(msg string, data M) {
 	p.ServeJSON()
 }
 
-// 返回editorMd图片上传成功后需要的json格式数据
-/*func (p *BaseController) ReturnJsonEditorMd()*/
 func (p *BaseController) Prepare() {
 	u, ok := p.GetSession("SESSION_USER_KEY").(models.User) // 类型判断
 	p.IsLogin = false                                       // 把登录状态设置为false
@@ -109,7 +108,6 @@ func (p *BaseController) GetMustAndInlen(key, nullErrNotice, overLenErrNotice st
 // 必须登录
 func (p *BaseController) MustLogin() {
 	if !p.IsLogin { // 如果没登录，提示错误
-		//p.About500(syserrors.UnLoginError{})
 		p.Ctx.Redirect(302, "/admin/login/index")
 		return
 	}
@@ -158,13 +156,12 @@ func (p *BaseController) initSearchData() {
 }
 
 // 前台模板渲染
-func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl string, pageAlias string) {
-	// 初始化搜索数据，用于前台搜索
-	p.initSearchData()
+func (p *BaseController) IndexCommTpl(method, tpl, sectionTpl, pageAlias, pageTitle string) {
 	// 取出最新文章
-	var newResult []models.Result
-	models.Article{}.GetNewArticle(5, &newResult)
-	p.Data["NewArticle"] = newResult
+	var newArticle []models.NewArticle
+	models.Article{}.GetNewArticle(7, &newArticle)
+	p.Data["NewArticle"] = newArticle
+
 	// 取出所有分类及分类下的文章数目
 	cate := models.Category{}.GetAllCateAndNum()
 	p.Data["CategoryData"] = cate
@@ -178,16 +175,43 @@ func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl stri
 	models.Link{}.GetAllLink(&l)
 	p.Data["LinkInfo"] = l
 
+	// 取出system setting
+	var st models.System
+	models.System{}.GetSystem(&st)
+	p.Data["SystemData"] = st
+
 	if method != "Page" {
 		p.Data["url"] = beego.URLFor("IndexController." + method)
 	} else {
 		p.Data["url"] = pageAlias
 	}
 
+	// 取出归档时间
+	// 先取出所有的文章添加时间
+	var ct []models.CreatedAt
+	models.Article{}.GetArticleCreateTime(&ct)
+	var str = ""
+	var monthYear []interface{}
+	// 循环
+	for _, v := range ct {
+		monthAndYear := beego.Date(v.CreatedAt, "m月 Y")
+		str += monthAndYear + ","
+		monthAndYear = strings.Trim(str, ",")
+		monthAndYears := strings.Split(monthAndYear, ",")
+		monthYear = p.Duplicate(monthAndYears)
+	}
+
+	p.Data["monthYear"] = monthYear
 	// 取出单页面信息
 	var s []models.SinglePage
 	models.SinglePage{}.GetAllPage(&s)
 	p.Data["PagesInfo"] = s
+
+	if p.Ctx.Request.RequestURI != "/" {
+		p.Data["PageTitle"] = st.WebName + " | " + pageTitle
+	} else {
+		p.Data["PageTitle"] = st.WebTitle
+	}
 	p.Layout = "index/public/layout.html"
 	p.TplName = "index/" + tpl
 	if len(sectionTpl) != 0 {
@@ -196,9 +220,45 @@ func (p *BaseController) IndexCommTpl(method string, tpl string, sectionTpl stri
 	}
 }
 
+// 通过两重循环过滤重复元素
+func (p *BaseController) RemoveRepByLoop(slc []int) []int {
+	result := []int{} // 存放结果
+	for i := range slc {
+		flag := true
+		for j := range result {
+			if slc[i] == result[j] {
+				flag = false // 存在重复元素，标识为false
+				break
+			}
+		}
+		if flag { // 标识为false，不添加进结果
+			result = append(result, slc[i])
+		}
+	}
+	return result
+}
+
+// 去重
+func (BaseController) Duplicate(a interface{}) (ret []interface{}) {
+	va := reflect.ValueOf(a)
+	for i := 0; i < va.Len(); i++ {
+		if i > 0 && reflect.DeepEqual(va.Index(i-1).Interface(), va.Index(i).Interface()) {
+			continue
+		}
+		ret = append(ret, va.Index(i).Interface())
+	}
+	return ret
+}
+
 // 后台模板渲染
 func (p *BaseController) AdminCommTpl(tpl string, pageTitle string) {
-	p.Data["PageTitle"] = pageTitle
+	// 取出system setting，default_author, web_name
+	var st models.System
+	models.System{}.GetSectionSystem(&st)
+	p.Data["SystemData"] = st
+
+	p.Data["PageTitle"] = st.WebName + " | " + pageTitle
+
 	p.Layout = "admin/public/layout.html"
 	p.TplName = "admin/" + tpl
 }
@@ -213,20 +273,6 @@ func (p *BaseController) GetRandomString(l int) string {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
 	return string(result)
-}
-
-// CreateDateDir 根据当前日期来创建文件夹
-func (p *BaseController) CreateDateDir(basePath string) string {
-	folderName := time.Now().Format("20190101")
-	folderPath := filepath.Join(basePath, folderName)
-	if _, err := os.Stat(folderPath); os.IsNotExist(err) {
-		// 必须分成两步
-		// 先创建文件夹
-		os.Mkdir(folderPath, 0777)
-		// 再修改权限
-		os.Chmod(folderPath, 0777)
-	}
-	return folderPath
 }
 
 // 获取文件后缀

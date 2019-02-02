@@ -68,5 +68,10 @@ func (p SinglePage) GetAllPage(s *[]SinglePage) {
 
 // 根据别名取出某个页面
 func (p SinglePage) GetPageByCateName(pageAlias string, s *SinglePage) {
-	db.Select("id, content").Where("page_alias = ?", pageAlias).Find(&s)
+	db.Select("id, content, page_name").Where("page_alias = ?", pageAlias).Find(&s)
+}
+
+// 取出所有的pagealias
+func (p SinglePage) GetAllPageAlias(sg *[]SinglePage) {
+	db.Select("page_alias").Find(&sg)
 }

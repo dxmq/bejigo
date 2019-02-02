@@ -100,6 +100,9 @@ func (p *ArticleController) ArticleCreate() {
 			at.ArticleId = a.ID
 			models.ArticleTag{}.ArticleTagAdd(&at)
 
+			// 初始化搜索数据，用于前台搜索
+			p.initSearchData()
+
 			// 提示并跳转
 			p.ReturnJson("添加成功！", "/admin/article/list/1")
 		} else {
@@ -221,6 +224,10 @@ func (p *ArticleController) ArticleEdit() {
 			tagIds := strings.Replace(strings.Trim(fmt.Sprint(tagId), "[]"), " ", ",", -1)
 			// 添加到article_tag表
 			models.ArticleTag{}.UpdateArticleTagById(a.ID, tagIds)
+
+			// 初始化搜索数据，用于前台搜索
+			p.initSearchData()
+
 			// 提示并跳转
 			p.ReturnJson("编辑成功！", "/admin/article/list/1")
 		} else {
@@ -241,6 +248,10 @@ func (p *ArticleController) ArticleDelete() {
 		if err2 == nil {
 			// 维护article_tag表，删除文章时删除对应的标签数据
 			models.ArticleTag{}.DeleteArticleTagById(aid.Id)
+
+			// 初始化搜索数据，用于前台搜索
+			p.initSearchData()
+
 			p.ReturnJsonCode("删除成功！")
 		} else {
 			p.About500(syserrors.New("删除失败！", err2))

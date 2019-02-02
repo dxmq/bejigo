@@ -21,7 +21,7 @@ func init() {
 	if err != nil {
 		panic("连接数据库失败")
 	}
-	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{}, &Profile{}, &SinglePage{})
+	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{}, &SinglePage{}, &System{})
 	var count int
 	// 如果user数据表里边没有数据，新增一条user记录
 	if err := db.Model(&User{}).Count(&count).Error; err == nil && count == 0 {
@@ -34,11 +34,17 @@ func init() {
 			Role:     1,
 		})
 	}
-	// 如果profile数据表里没有数据，新增一条user记录
-	if err := db.Model(&Profile{}).Count(&count).Error; err == nil && count == 0 {
-		db.Create(&Profile{
-			UserId: 1,
-			About:  "about",
+	// 如果system数据表里没有数据，新增一条user记录
+	if err := db.Model(&System{}).Count(&count).Error; err == nil && count == 0 {
+		db.Create(&System{
+			ID:             1,
+			RecordNumber:   "滇ICP备10000000号",
+			CopyRight:      "2018-2019 h1ml.com",
+			WebName:        "The Lost Eden",
+			WebTitle:       "h1ml | 愿你岁月无波澜，敬我余生不悲欢",
+			WebKeywords:    "h1ml博客",
+			DefaultAuthor:  "zuo",
+			WebDescription: "h1ml | 愿你岁月无波澜，敬我余生不悲欢",
 		})
 	}
 }

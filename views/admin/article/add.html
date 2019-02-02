@@ -111,7 +111,7 @@
 <script>
     var testEditor;
     $(function () {
-        $("#author").val('h1ml');
+        $("#author").val({{.SystemData.DefaultAuthor}});
         $(".i-checks").iCheck({ // 引入icheck插件
             checkboxClass: 'icheckbox_minimal-red',
             radioClass: 'iradio_minimal-red',
