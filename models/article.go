@@ -114,7 +114,7 @@ func (p Article) GetCountByCateId(categoryId string) int {
 }
 
 /******* 前台相关 ******/
-// 根据页码获取文章信息
+// 取出pageSize条文章数据
 func (p Article) GetArticleData(pageSize int, r *[]Result) {
 	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.created_at, a.summary, b.category_name").Where("is_show = ?", 1).Order("a.is_top desc").Order("a.created_at desc").Joins("left join categories as b on b.id = a.category_id").Limit(pageSize).Scan(&r)
 }
@@ -129,7 +129,8 @@ func (p Article) GetNewArticle(number int, na *[]NewArticle) {
 	db.Model(&p).Order("created_at desc").Select("id, title").Limit(5).Scan(&na)
 }
 
-func (p Article) GetArchives(r *[]Result) {
+// 取出归档
+func (p Article) GetArchives(r *[]ArticleArch) {
 	db.Model(&p).Order("created_at desc").Select("id, title, created_at").Scan(&r)
 }
 
@@ -172,4 +173,9 @@ type CreatedAt struct {
 // 获取所有的文章的添加时间
 func (p Article) GetArticleCreateTime(ct *[]CreatedAt) {
 	db.Table("articles").Select("id, created_at").Where("is_show = ?", 1).Scan(&ct)
+}
+
+// 更新阅读数
+func (p Article) UpdateViews(id string) {
+	db.Exec("UPDATE articles SET views=views+1 WHERE id=" + id)
 }

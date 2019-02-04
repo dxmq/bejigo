@@ -24,7 +24,7 @@
         <div class="site-name">
             <h1 class="hidden">{{.SystemData.WebName}}</h1>
             <a id="logo" href="/">{{.SystemData.WebName}}</a>
-            <p class="description">愿你岁月无波澜，敬我余生不悲欢。</p>
+            <p class="description">{{.SystemData.WebSlogan}}</p>
         </div>
         <div id="nav-menu">
             <a href="/" {{if eq "/" .url}}class="current"{{end}}><i class="fa fa-home"> 首页</i></a>
@@ -32,7 +32,6 @@
             {{range .PagesInfo}}
             <a href="/page/{{.PageAlias}}" {{if eq  .PageAlias $.url}}class="current" {{end}}><i class="{{.PageIconClass}}"> {{.PageName}}</i></a>
             {{end}}
-            <a href="/atom"><i class="fa fa-rss"> 订阅</i></a>
         </div>
         <div id="search-form">
             <div id="result-mask" class="hide"></div>
@@ -138,6 +137,7 @@
 <script src="/static/admin/js/jquery.min.js"></script>
 <script type="text/javascript " src="/static/index/js/search.json.js"></script>
 <script type="text/javascript" src="/static/index/js/totop.js-v=2.0.1.js"></script>
+{{/*<script type="text/javascript" color="0,0,255" opacity='0.5' zIndex="-2" count="99" src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>*/}}
 {{.Scripts}}
 </body>
 </html>

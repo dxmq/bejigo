@@ -28,6 +28,9 @@ func init() {
 // 显示登录页面
 // @router /admin/login/index [get]
 func (p *UserController) LoginIndex() {
+	var st models.System
+	models.System{}.GetSectionSystem(&st)
+	p.Data["SystemData"] = st
 	p.TplName = "admin/login/login.html"
 }
 

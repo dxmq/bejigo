@@ -135,7 +135,7 @@ func (p *ArticleController) UploadEditorMdPic() {
 	err2 := p.SaveToFile("editormd-image-file", filePath+"/"+fileName)
 	if err2 == nil { // 如果没错，返回url,success,message
 		p.Data["json"] = map[string]interface{}{
-			"url":     "/static/uploads/" + dateStr + "/" + fileName,
+			"url":     strings.Trim(uploadPath, ".") + dateStr + "/" + fileName,
 			"success": 1,
 			"message": "upload success!",
 		}
@@ -229,9 +229,9 @@ func (p *ArticleController) ArticleEdit() {
 			p.initSearchData()
 
 			// 提示并跳转
-			p.ReturnJson("编辑成功！", "/admin/article/list/1")
+			p.ReturnJson("编辑成功！", "/admin/article/editindex/"+strconv.Itoa(id))
 		} else {
-			p.ReturnJson("编辑成功！", "/admin/article/list/1")
+			p.ReturnJson("编辑成功！", "/admin/article/editindex/"+strconv.Itoa(id))
 		}
 	}
 }

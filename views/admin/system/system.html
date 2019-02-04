@@ -4,7 +4,7 @@
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
             <li class="active">
-                <i class="fa fa-home"></i>&nbsp;系统设置
+                <i class="fa fa-cog"></i>&nbsp;系统设置
             </li>
             <li>
                 设置
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <label for="default_author" class="col-sm-2 control-label no-padding-right">默认作者</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="default_author" placeholder="默认作者" value="{{.SystemInfo.DefaultAuthor}}">
+                                    <input type="text" class="form-control" name="default_author" placeholder="默认作者" value="{{.SystemInfo.DefaultAuthor}}" id="default_author">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -63,6 +63,18 @@
                                 <label for="web_description" class="control-label col-sm-2 no-padding-right">网站描述</label>
                                 <div class="col-sm-6">
                                     <textarea name="web_description" id="web_description" cols="60" rows="3">{{.SystemInfo.WebDescription}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="web_slogan" class="control-label col-sm-2 no-padding-right">网站标语</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="网站标语" name="web_slogan" value="{{.SystemInfo.WebSlogan}}" id="web_slogan">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="index_show_number" class="control-label col-sm-2 no-padding-right">首页显示的文章条数</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" placeholder="首页显示的文章条数" name="index_show_number" value="{{.SystemInfo.IndexShowNumber}}" id="index_show_number">
                                 </div>
                             </div>
                             <div class="form-group">

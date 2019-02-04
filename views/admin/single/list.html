@@ -102,7 +102,7 @@
         });
         $(".single-del").click(function () {
             var id = $(this).attr("dataid");
-            layer.confirm("确定要删除吗？", {
+            layer.confirm("删除该页面会同时删除对应的html文件，确定要删除吗？", {
                 icon: 3,
                 title: "页面删除"
             }, function (index) {

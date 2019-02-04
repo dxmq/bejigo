@@ -70,7 +70,6 @@ func (p *SingleController) EditPageIndex() {
 	id := p.Ctx.Input.Param(":id")
 	var s models.SinglePage
 	models.SinglePage{}.GetOneSinglePageById(id, &s)
-	//s.Content = beego.Htmlunquote(s.Content)
 	p.Data["SinglePage"] = s
 	p.AdminCommTpl("single/edit.html", "编辑页面")
 }

@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type IndexController struct {
@@ -17,17 +18,19 @@ type IndexController struct {
 func (c *IndexController) Index() {
 	// 取出首页文章信息
 	var r []models.Result
-	models.Article{}.GetArticleData(5, &r) // 取出最新的5条数据
+	var isn models.IndexShowNumber
+	models.System{}.GetIndexShowNumber(&isn)
+	models.Article{}.GetArticleData(int(isn.IndexShowNumber), &r) // 取出最新的数据
 	c.Data["Article"] = r
-	c.IndexCommTpl("Index", "index.html", "", "", "愿你岁月无波澜，敬我余生不悲欢。")
+	c.IndexCommTpl("Index", "index.html", "", "", "")
 }
 
 // @router /archives [get]
 func (c *IndexController) Archives() {
 	// 查询出归档信息
-	var r []models.Result
-	models.Article{}.GetArchives(&r)
-	c.Data["Archives"] = r
+	var ar []models.ArticleArch
+	models.Article{}.GetArchives(&ar)
+	c.Data["Archives"] = ar
 	c.IndexCommTpl("Archives", "archives.html", "", "", "归档")
 }
 
@@ -81,6 +84,17 @@ func (c *IndexController) ArticleDetail() {
 	var a models.Article
 	models.Article{}.GetNextArticle(r.ID, &a)
 	c.Data["NextArticle"] = a
+
+	// 阅读量
+	ct := c.GetSession(id)
+	if ct != nil {
+		if int(time.Now().Unix())-ct.(int) >= 86400 {
+			models.Article{}.UpdateViews(id)
+		}
+	} else {
+		c.SetSession(id, int(time.Now().Unix()))
+		models.Article{}.UpdateViews(id)
+	}
 	c.IndexCommTpl("Index", "article.html", "", "", r.Title)
 }
 
@@ -140,12 +154,12 @@ func (c *IndexController) Page() {
 	for _, v := range sg {
 		if v.PageAlias == pageAlias {
 			// 创建文件
-			pagePath := "./views/index/"
+			pagePath := "./views/index/page/"
 			fileName := pagePath + pageAlias + ".html"
 			f, _ := os.Create(fileName)
 			io.WriteString(f, s.Content)
 			defer f.Close()
 		}
 	}
-	c.IndexCommTpl("Page", pageAlias+".html", "", pageAlias, s.PageName)
+	c.IndexCommTpl("Page", "page/"+pageAlias+".html", "", pageAlias, s.PageName)
 }

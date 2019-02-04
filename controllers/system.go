@@ -29,6 +29,11 @@ func (p *SystemController) SystemSave() {
 	webKeywords := p.GetAllowMaxString("web_keywords", "网站描述在100个字符之间！", 100)
 	defaultAuthor := p.GetAllowMaxString("default_author", "默认作者长度在15个字符之间！", 15)
 	webDescription := p.GetAllowMaxString("web_description", "网站描述在100个字符之间！", 100)
+	indexShowNumber, err := p.GetInt("index_show_number")
+	if err != nil {
+		p.About500(errors.New("首页文章显示数不能为空，且只能是正整数！"))
+	}
+	webSlogan := p.GetAllowMaxString("web_slogan", "网站标语在100个字符之间！", 100)
 	st.ID = uint(id)
 	st.WebName = webName
 	st.CopyRight = copyRight
@@ -37,8 +42,9 @@ func (p *SystemController) SystemSave() {
 	st.WebKeywords = webKeywords
 	st.DefaultAuthor = defaultAuthor
 	st.WebDescription = webDescription
-
-	err := models.System{}.SaveSystem(&st)
+	st.WebSlogan = webSlogan
+	st.IndexShowNumber = uint(indexShowNumber)
+	err = models.System{}.SaveSystem(&st)
 	if err == nil {
 		p.ReturnJson("保存成功！", "/admin/system/index")
 	} else {

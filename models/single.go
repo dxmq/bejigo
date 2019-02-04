@@ -5,7 +5,7 @@ import "time"
 type SinglePage struct {
 	ID            uint   `gorm:"primary_key"`
 	PageName      string `gorm:"size:15;unique;not null;"`
-	PageAlias     string `gorm:"size:15;unique;not null;"`
+	PageAlias     string `gorm:"size:15;not null;"`
 	Sort          uint   // 排序
 	IsShow        int    `gorm:"type:enum(1,0);default:1"` // 默认显示
 	PageIconClass string `gorm:"size:15;not null;"`
