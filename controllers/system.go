@@ -11,6 +11,7 @@ type SystemController struct {
 
 func (p *SystemController) SystemIndex() {
 	p.MustLogin()
+	p.permission()
 	var st models.System
 	models.System{}.GetSystem(&st)
 	p.Data["SystemInfo"] = st
@@ -19,6 +20,7 @@ func (p *SystemController) SystemIndex() {
 
 func (p *SystemController) SystemSave() {
 	p.MustLogin()
+	p.permission()
 	var st models.System
 
 	id, _ := p.GetInt("id", 1)

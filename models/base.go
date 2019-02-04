@@ -88,7 +88,7 @@ func init() {
 func InitArticle() {
 	if err := db.Model(&Article{}).Count(&count).Error; err == nil && count == 0 {
 		db.Create(&Article{
-			Title:      "网站介绍",
+			Title:      "写在前面",
 			Author:     "zuo",
 			CategoryId: 1,
 			IsShow:     1,
@@ -105,7 +105,6 @@ func InitArticle() {
 - 采用editormd作为文章编辑器，专注于写作
 
 **安装**
-
 1. 安装所需库
 go get github.com/astaxie/beego
 go get github.com/beego/bee
@@ -144,7 +143,7 @@ func InitSinglePage() {
          <a href="javascript:;" class="photo"><img src="/static/index/img/face.png" /></a>
         <div class="author">
           <p><i class="fa fa-user">name：</i>zuo</p>
-          <p><i class="fa fa-email">email：</i>1697859639@qq.com</p>
+          <p><i class="fa fa-email">email：</i>xxx@qq.com</p>
           <p><i class="fa fa-github">github：</i><a href="https://github.com/dxmq">dxmq</a></p>
          </div>
         </div>

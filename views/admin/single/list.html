@@ -12,7 +12,9 @@
     <!-- /Page Breadcrumb -->
     <!-- Page Body -->
     <div class="page-body">
+        {{if eq 1 .Role}}
         <a href="/admin/single/addindex" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;单页面添加</a>
+        {{end}}
         <div class="row">
             <div class="col-xs-12">
                 <div class="widget">
@@ -47,8 +49,12 @@
                                     <td>{{if eq 1 .IsShow}}显示{{else}}不显示{{end}}</td>
                                     <td>{{date .CreatedAt "Y-m-d H:i:s"}}</td>
                                     <td>
+                                        {{if eq 1 $.Role}}
                                         <a href="/admin/single/editindex/{{.ID}}" class="btn btn-azure btn-xs">编辑</a>
                                         <a href="#" class="btn btn-danger btn-xs single-del" dataid="{{.ID}}">删除</a>
+                                        {{else}}
+                                            暂无权限
+                                        {{end}}
                                     </td>
                                 </tr>
                             {{end}}

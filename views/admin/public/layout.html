@@ -242,18 +242,27 @@ glyphicon glyphicon-th-list"></i>
                                 <span class="menu-text">页面列表</span>
                             </a>
                         </li>
+                        {{if eq 1 .Role}}
                         <li>
                             <a href="/admin/single/addindex">
                                 <span class="menu-text">添加页面</span>
                             </a>
                         </li>
+                        {{end}}
                     </ul>
                 </li>
                 <li>
+                    {{if eq 1 .Role}}
                     <a href="/admin/system/index">
                         <i class="menu-icon glyphicon glyphicon-cog"></i>
                         <span class="menu-text">系统设置</span>
                     </a>
+                    {{else}}
+                    <a href="">
+                        <i class="menu-icon glyphicon glyphicon-cog"></i>
+                        <span class="menu-text">系统设置(暂无权限)</span>
+                    </a>
+                    {{end}}
                 </li>
             </ul>
         </div>

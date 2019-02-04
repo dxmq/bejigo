@@ -18,6 +18,7 @@ type SingleController struct {
  */
 func (p *SingleController) AddPageIndex() {
 	p.MustLogin()
+	p.permission()
 	p.AdminCommTpl("single/add.html", "页面添加")
 }
 
@@ -35,6 +36,7 @@ func (p *SingleController) PageList() {
  */
 func (p *SingleController) PageAdd() {
 	p.MustLogin()
+	p.permission()
 	// 接收表单数据
 	pageName := p.GetMustAndInlen("page_name", "页面名称不能空！", "页面名称的长度在1-15个字符之间", 15)
 	pageAlias := p.GetMustAndInlen("page_alias", "页面别名不能空！", "页面别名的长度在1-15个字符之间", 15)
@@ -67,6 +69,7 @@ func (p *SingleController) PageAdd() {
 // 编辑页面显示
 func (p *SingleController) EditPageIndex() {
 	p.MustLogin()
+	p.permission()
 	id := p.Ctx.Input.Param(":id")
 	var s models.SinglePage
 	models.SinglePage{}.GetOneSinglePageById(id, &s)
@@ -74,9 +77,10 @@ func (p *SingleController) EditPageIndex() {
 	p.AdminCommTpl("single/edit.html", "编辑页面")
 }
 
-// 编辑页面
+// 编辑
 func (p *SingleController) PageEdit() {
 	p.MustLogin()
+	p.permission()
 	// 接收表单数据
 	id, _ := p.GetInt("id")
 	pageName := p.GetMustAndInlen("page_name", "页面名称不能空！", "页面名称的长度在1-15个字符之间", 15)
@@ -95,7 +99,6 @@ func (p *SingleController) PageEdit() {
 	s.PageAlias = pageAlias
 	s.IsShow = isShow
 	s.Sort = uint(Sort)
-	//s.Content = beego.Htmlquote(content) // 转义html
 	s.Content = content
 	s.PageIconClass = pageIconClass
 
@@ -111,6 +114,7 @@ func (p *SingleController) PageEdit() {
 // 页面删除
 func (p *SingleController) PageDelete() {
 	p.MustLogin()
+	p.permission()
 	var id models.PageDeleteId
 	if err := json.Unmarshal(p.Ctx.Input.RequestBody, &id); err == nil {
 		// 删除数据表中数据的同时删除创建的文件

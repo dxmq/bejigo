@@ -69,6 +69,16 @@ func (p *BaseController) Prepare() {
 	}
 }
 
+// 权限控制
+func (p *BaseController) permission() {
+	u, ok := p.GetSession("SESSION_USER_KEY").(models.User)
+	if ok {
+		if u.Role != 1 {
+			p.Abort("暂无权限！")
+		}
+	}
+}
+
 // 错误提示
 func (p *BaseController) About500(err error) {
 	p.Data["error"] = err

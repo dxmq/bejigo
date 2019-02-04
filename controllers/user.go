@@ -80,6 +80,7 @@ func (p *UserController) UserList() {
 // @router /admin/user/addindex [get]
 func (p *UserController) UserAddIndex() {
 	p.MustLogin()
+	p.permission()
 	p.AdminCommTpl("user/add.html", "用户添加")
 }
 
@@ -87,6 +88,7 @@ func (p *UserController) UserAddIndex() {
 // @router /admin/user/create [post]
 func (p *UserController) UserCreate() {
 	p.MustLogin()
+	p.permission()
 	// 接收表单信息
 	username := p.GetMustAndInlen("user_name", "用户名不能为空！", "用户名不能超过15个字符！", 15)
 	password := p.GetMustString("pass_word", "密码不能为空！")
@@ -124,6 +126,7 @@ func (p *UserController) UserCreate() {
 // @router /admin/user/editindex/:id [get]
 func (p *UserController) Profile() {
 	p.MustLogin()
+	p.permission()
 	// 接收user_id
 	id := p.Ctx.Input.Param(":id")
 	// 根据id查询出当前用户的信息
@@ -138,6 +141,7 @@ func (p *UserController) Profile() {
 // @router /admin/user/edit [post]
 func (p *UserController) EditProfile() {
 	p.MustLogin()
+	p.permission()
 	// 接收表单信息
 	userId, _ := p.GetInt("id")
 	username := p.GetMustAndInlen("user_name", "用户名不能为空！", "用户名不能超过15个字符！", 15)
@@ -180,6 +184,7 @@ func (p *UserController) EditProfile() {
 // @router /admin/user/delete [post]
 func (p *UserController) UserDelete() {
 	p.MustLogin()
+	p.permission()
 	var uDelId models.UserDeleteId
 	if err := json.Unmarshal(p.Ctx.Input.RequestBody, &uDelId); err == nil {
 		// 调用模型完成删除操作

@@ -10,15 +10,15 @@
     <!-- /Page Breadcrumb -->
     <!-- Page Body -->
     <div class="page-body">
-        {{/*<div class="row">
+        <div class="row">
             <div class="col-xs-12">
                 <div class="well bordered-left bordered-themeprimary">
                     <h1 style="font-weight: 900!important;font-style: italic;text-shadow: 5px 5px 5px #ff0000;font-family: '新宋体'">
-                        欢迎来到后台管理系统！
+                        欢迎来到{{.SystemData.WebName}}后台管理系统！
                     </h1>
                 </div>
             </div>
-        </div>*/}}
+        </div>
         <div class="row">
             <div class="col-xs-12">
                 <div class="well with-header with-footer">
@@ -28,24 +28,16 @@
                     <table class="table table-hover table-bordered">
                         <thead>
                         <tr>
-                            <th colspan="2">服务器信息</th>
+                            <th colspan="2">个人信息</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>服务器域名</td>
-                            <td>h1ml.com</td>
+                            <td>名称</td>
+                            <td>{{.UserName}}</td>
                         </tr>
                         <tr>
-                            <td>服务器IP地址</td>
-                            <td>127.0.0.1</td>
-                        </tr>
-                        <tr>
-                            <td>服务器端口</td>
-                            <td>80</td>
-                        </tr>
-                        <tr>
-                            <td>联系邮箱</td>
+                            <td>邮箱</td>
                             <td>{{.Email}}</td>
                         </tr>
                         </tbody>
