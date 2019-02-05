@@ -161,5 +161,5 @@ func (c *IndexController) Page() {
 			defer f.Close()
 		}
 	}
-	c.IndexCommTpl("Page", "page/"+pageAlias+".html", "", pageAlias, s.PageName)
+	c.IndexCommTpl("Page", pageAlias+".html", "", pageAlias, s.PageName)
 }

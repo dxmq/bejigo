@@ -160,7 +160,7 @@ func (p *BaseController) initSearchData() {
 	models.Article{}.GetArticleDataForSearch(&searchData)
 	//content, err := json.MarshalIndent(a, "", "")
 	content, _ := json.Marshal(searchData)
-	fileName := "./static/index/js/content.json.js"
+	fileName := "./static/index/js/searchdata/content.json.js"
 	f, _ := os.Create(fileName)
 	io.WriteString(f, string(content))
 }
@@ -223,7 +223,11 @@ func (p *BaseController) IndexCommTpl(method, tpl, sectionTpl, pageAlias, pageTi
 		p.Data["PageTitle"] = st.WebTitle
 	}
 	p.Layout = "index/public/layout.html"
-	p.TplName = "index/" + tpl
+	if method != "Page" {
+		p.TplName = "index/basic/" + tpl
+	} else {
+		p.TplName = "index/page/" + tpl
+	}
 	if len(sectionTpl) != 0 {
 		p.LayoutSections = make(map[string]string)
 		p.LayoutSections["Scripts"] = "index/public/" + sectionTpl

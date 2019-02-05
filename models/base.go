@@ -112,14 +112,14 @@ go get github.com/mattn/go-sqlite3
 
 2. 克隆项目到GOPATH/src目录
 cd $GOPATH/src/
-git clone https://github.com/dxmq/bejigo.git
+git clone https://gitee.com/h1ml/bejigo
 
 3. 运行项目
 bee run
 
 4. 如需nginx代理服务，请参考https://beego.me/docs/deploy/nginx.md>
 
->注：我是初学者，水平有限，如有任何bug，请联系我。邮箱：1697859639@qq.com`,
+>注：我是初学者，水平有限，如有任何好的建议和意见或遇到任何bug，请联系我。邮箱：1697859639@qq.com`,
 		})
 	}
 
@@ -147,8 +147,6 @@ func InitSinglePage() {
           <p><i class="fa fa-github">github：</i><a href="https://github.com/dxmq">dxmq</a></p>
          </div>
         </div>
-        <h6 id="这是什么？"><a href="#这是什么？" class="headerlink" title="这是什么？"></a>这是什么？</h6>
-        <p>一个代码盒子，记录学习点滴。</p> 
         <h6 id="为什么会有这个？"><a href="#为什么会有这个？" class="headerlink" title="为什么会有这个？"></a>为什么会有这个？</h6>
         <p>不想让生活博客被代码充斥而变了味，谈生活，不谈技术，谈技术，就不谈生活，过的纯粹些。</p> 
         <h6 id="要怎么做？"><a href="#要怎么做？" class="headerlink" title="要怎么做？"></a>要怎么做？</h6>
