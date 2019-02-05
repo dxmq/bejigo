@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"bego/models"
-	"bego/syserrors"
+	"bejigo/models"
+	"bejigo/syserrors"
 	"encoding/json"
 	"errors"
 	"github.com/astaxie/beego/cache"

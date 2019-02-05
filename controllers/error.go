@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"bego/syserrors"
+	"bejigo/syserrors"
 	"github.com/astaxie/beego/logs"
 )
 

@@ -1,7 +1,7 @@
 package routers
 
 import "github.com/astaxie/beego"
-import "bego/controllers"
+import "bejigo/controllers"
 
 func init() {
 	beego.ErrorController(&controllers.ErrorController{})

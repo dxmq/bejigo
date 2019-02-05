@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"bego/models"
-	"bego/syserrors"
+	"bejigo/models"
+	"bejigo/syserrors"
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"

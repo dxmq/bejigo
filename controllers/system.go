@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"bego/models"
+	"bejigo/models"
 	"errors"
 )
 

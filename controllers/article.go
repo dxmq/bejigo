@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"bego/models"
-	"bego/syserrors"
+	"bejigo/models"
+	"bejigo/syserrors"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"

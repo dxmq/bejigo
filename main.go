@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bego/models"
-	_ "bego/models"
-	_ "bego/routers"
+	"bejigo/models"
+	_ "bejigo/models"
+	_ "bejigo/routers"
 	"encoding/gob"
 	"fmt"
 	"github.com/astaxie/beego"

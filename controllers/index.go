@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"bego/models"
+	"bejigo/models"
 	"github.com/astaxie/beego"
 	"io"
 	"os"

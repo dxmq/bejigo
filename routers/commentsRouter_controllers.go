@@ -7,7 +7,7 @@ import (
 
 func init() {
 
-	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "Index",
 			Router:           `/`,
@@ -16,7 +16,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "Archives",
 			Router:           `/archives`,
@@ -25,7 +25,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "ArchivesByMY",
 			Router:           `/archives/:monthYear`,
@@ -34,7 +34,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "Categories",
 			Router:           `/categories/:cateName`,
@@ -43,7 +43,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "ArticleDetail",
 			Router:           `/detail/:id`,
@@ -52,7 +52,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "Page",
 			Router:           `/page/:pageAlias`,
@@ -61,7 +61,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:IndexController"] = append(beego.GlobalControllerRouter["bego/controllers:IndexController"],
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
 			Method:           "Tags",
 			Router:           `/tags/:id`,
@@ -70,7 +70,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+	beego.GlobalControllerRouter["bejigo/controllers:TagController"] = append(beego.GlobalControllerRouter["bejigo/controllers:TagController"],
 		beego.ControllerComments{
 			Method:           "TagStore",
 			Router:           `/admin/tag`,
@@ -79,7 +79,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+	beego.GlobalControllerRouter["bejigo/controllers:TagController"] = append(beego.GlobalControllerRouter["bejigo/controllers:TagController"],
 		beego.ControllerComments{
 			Method:           "TagList",
 			Router:           `/admin/tag`,
@@ -88,7 +88,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+	beego.GlobalControllerRouter["bejigo/controllers:TagController"] = append(beego.GlobalControllerRouter["bejigo/controllers:TagController"],
 		beego.ControllerComments{
 			Method:           "TagShow",
 			Router:           `/admin/tag/:id`,
@@ -97,7 +97,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+	beego.GlobalControllerRouter["bejigo/controllers:TagController"] = append(beego.GlobalControllerRouter["bejigo/controllers:TagController"],
 		beego.ControllerComments{
 			Method:           "TagCreate",
 			Router:           `/admin/tag/create`,
@@ -106,7 +106,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+	beego.GlobalControllerRouter["bejigo/controllers:TagController"] = append(beego.GlobalControllerRouter["bejigo/controllers:TagController"],
 		beego.ControllerComments{
 			Method:           "TagDelete",
 			Router:           `/admin/tag/delete`,
@@ -115,7 +115,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:TagController"] = append(beego.GlobalControllerRouter["bego/controllers:TagController"],
+	beego.GlobalControllerRouter["bejigo/controllers:TagController"] = append(beego.GlobalControllerRouter["bejigo/controllers:TagController"],
 		beego.ControllerComments{
 			Method:           "TagEdit",
 			Router:           `/admin/tag/edit`,
@@ -124,7 +124,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "LoginIndex",
 			Router:           `/admin/login/index`,
@@ -133,7 +133,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "Login",
 			Router:           `/admin/login/login`,
@@ -142,7 +142,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "UserAddIndex",
 			Router:           `/admin/user/addindex`,
@@ -151,7 +151,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "UserCreate",
 			Router:           `/admin/user/create`,
@@ -160,7 +160,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "UserDelete",
 			Router:           `/admin/user/delete`,
@@ -169,7 +169,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "EditProfile",
 			Router:           `/admin/user/edit`,
@@ -178,7 +178,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "Profile",
 			Router:           `/admin/user/editindex/:id`,
@@ -187,7 +187,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "UserList",
 			Router:           `/admin/user/list`,
@@ -196,7 +196,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["bego/controllers:UserController"] = append(beego.GlobalControllerRouter["bego/controllers:UserController"],
+	beego.GlobalControllerRouter["bejigo/controllers:UserController"] = append(beego.GlobalControllerRouter["bejigo/controllers:UserController"],
 		beego.ControllerComments{
 			Method:           "LoginOut",
 			Router:           `admin/login/logout`,
