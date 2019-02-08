@@ -1,0 +1,28 @@
+<div class="layout-l">
+ <div class="content_container">
+   <div class="post">
+    <div class="post-meta">
+     <p><span class="date">{{date .WhisperDetail.CreatedAt "Y-m-d H:i"}}</span>|{{.WhisperDetail.UserName}}</p>
+    </div>
+    <div class="post-content" >
+     <p>{{.WhisperDetail.Whisper}}</p>
+        <div class="post-nav">
+            <a href="{{if .WID}}/whisper/{{.WID}}{{else}}javascript:void(0){{end}}" class="next">{{if .WID}}{{if eq 15 (strLen .NextWhisper)}} {{.NextWhisper}}... {{else}} {{.NextWhisper}} {{end}} {{else}}emmm没有了{{end}}</a>
+        </div>
+     <div id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjMxOC8xODg2NQ=="></div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+<script>(
+         function(d, s) {
+          var j, e = d.getElementsByTagName('body')[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = '/static/index/js/embed.dist.js'/*tpa=https://cdn-city.livere.com/js/embed.dist.js*/;
+          j.async = true;
+          e.appendChild(j);
+         })(document, 'script');
+</script>

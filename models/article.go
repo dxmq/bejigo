@@ -76,7 +76,7 @@ func (p Article) PageUtil(count int, pageNo int, pageSize int, list interface{})
 
 // 根据页码获取文章信息
 func (p Article) GetAllArticleByPage(r *[]Result, pageSize, pageId int) {
-	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.author, a.is_show, a.is_top, a.views, a.created_at, b.category_name").Joins("left join categories as b on b.id = a.category_id").Limit(pageSize).Offset((pageId - 1) * pageSize).Order("a.created_at desc").Scan(&r)
+	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.author, a.is_show, a.is_top, a.views, a.created_at, a.updated_at, b.category_name").Joins("left join categories as b on b.id = a.category_id").Limit(pageSize).Offset((pageId - 1) * pageSize).Order("a.created_at desc").Scan(&r)
 }
 
 // 获取总的记录数
@@ -115,8 +115,8 @@ func (p Article) GetCountByCateId(categoryId string) int {
 
 /******* 前台相关 ******/
 // 取出pageSize条文章数据
-func (p Article) GetArticleData(pageSize int, r *[]Result) {
-	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.created_at, a.summary, b.category_name").Where("is_show = ?", 1).Order("a.is_top desc").Order("a.created_at desc").Joins("left join categories as b on b.id = a.category_id").Limit(pageSize).Scan(&r)
+func (p Article) GetArticleData(pageSize, pageId int, r *[]Result) {
+	db.Table("articles as a").Select("a.id, a.category_id, a.title, a.created_at, a.summary, b.category_name").Where("is_show = ?", 1).Order("a.is_top desc").Order("a.created_at desc").Joins("left join categories as b on b.id = a.category_id").Limit(pageSize).Offset((pageId - 1) * pageSize).Scan(&r)
 }
 
 type NewArticle struct {
@@ -157,7 +157,7 @@ func (p Article) GetArticleByArticleId(id string, ar *[]ArticleArch, limitNum in
 
 // 取出当前文章的下一篇文章
 func (p Article) GetNextArticle(id uint, a *Article) {
-	db.Select("id, title").Where("id > ?", id).Where("is_show = ?", 1).Find(&a).Limit(1)
+	db.Select("id, title").Where("id > ?", id).Where("is_show = ?", 1).Order("created_at desc").Find(&a).Limit(1)
 }
 
 // 搜索功能，取出所有文章的id,title,created_at

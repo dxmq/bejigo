@@ -68,4 +68,12 @@ func init() {
 	// 系统设置
 	beego.Router("/admin/system/index", &controllers.SystemController{}, "get:SystemIndex")
 	beego.Router("/admin/system/save", &controllers.SystemController{}, "post:SystemSave")
+
+	// 轻语
+	beego.Router("/admin/whisper/addindex", &controllers.WhisperController{}, "get:AddIndex")
+	beego.Router("/admin/whisper/create", &controllers.WhisperController{}, "post:Create")
+	beego.Router("/admin/whisper/list/:id", &controllers.WhisperController{}, "get:List")
+	beego.Router("/admin/whisper/editindex/:id", &controllers.WhisperController{}, "get:EditIndex")
+	beego.Router("/admin/whisper/edit", &controllers.WhisperController{}, "post:Edit")
+	beego.Router("/admin/whisper/delete", &controllers.WhisperController{}, "post:Delete")
 }

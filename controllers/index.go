@@ -16,13 +16,36 @@ type IndexController struct {
 
 // @router / [get]
 func (c *IndexController) Index() {
-	// 取出首页文章信息
 	var r []models.Result
+	var a models.Article
 	var isn models.IndexShowNumber
 	models.System{}.GetIndexShowNumber(&isn)
-	models.Article{}.GetArticleData(int(isn.IndexShowNumber), &r) // 取出最新的数据
-	c.Data["Article"] = r
+	pageSize := int(isn.IndexShowNumber)
+	count := a.GetAllCount()
+	models.Article{}.GetArticleData(pageSize, 1, &r)
+	Page := a.PageUtil(count, 1, pageSize, r)
+	c.Data["Page"] = Page
+	c.Data["ACount"] = count
+	c.Data["APageSize"] = pageSize
 	c.IndexCommTpl("Index", "index.html", "", "", "")
+}
+
+// @router /page/:id [get]
+func (c *IndexController) IndexPage() {
+	id := c.Ctx.Input.Param(":id")
+	pageId, _ := strconv.Atoi(id)
+	var r []models.Result
+	var a models.Article
+	var isn models.IndexShowNumber
+	models.System{}.GetIndexShowNumber(&isn)
+	pageSize := int(isn.IndexShowNumber)
+	count := a.GetAllCount()
+	models.Article{}.GetArticleData(pageSize, pageId, &r)
+	Page := a.PageUtil(count, pageId, pageSize, r)
+	c.Data["Page"] = Page
+	c.Data["ACount"] = count
+	c.Data["APageSize"] = pageSize
+	c.IndexCommTpl("Index", "index.html", "", "", "首页")
 }
 
 // @router /archives [get]
@@ -162,4 +185,34 @@ func (c *IndexController) Page() {
 		}
 	}
 	c.IndexCommTpl("Page", pageAlias+".html", "", pageAlias, s.PageName)
+}
+
+// 轻语
+// @router /whisper/page/:pageId [get]
+func (c *IndexController) Whisper() {
+	var ws []models.WhisperRes
+	var a models.Article
+	pageId := c.Ctx.Input.Param(":pageId")
+	pg, _ := strconv.Atoi(pageId)
+
+	count := models.Whisper{}.GetAllCount()
+	pageSize := 10
+	models.Whisper{}.GetAllWhisper(&ws, pageSize, pg)
+	Page := a.PageUtil(count, pg, pageSize, ws)
+	c.Data["Page"] = Page
+	c.Data["WCount"] = count
+	c.Data["WPageSize"] = pageSize
+	c.IndexCommTpl("whisper", "whisper.html", "", "", "轻语")
+}
+
+// @router /whisper/:id [get]
+func (c *IndexController) WhisperDetail() {
+	var ws models.WhisperRes
+	models.Whisper{}.GetWhisperById(c.Ctx.Input.Param(":id"), &ws)
+	c.Data["WhisperDetail"] = ws
+	var w models.Whisper
+	models.Whisper{}.GetNextWhisper(ws.ID, &w)
+	c.Data["WID"] = w.ID
+	c.Data["NextWhisper"] = beego.Substr(w.Whisper, 0, 15)
+	c.IndexCommTpl("whisper", "whisperdetail.html", "", "", "轻语")
 }

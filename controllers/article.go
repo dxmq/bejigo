@@ -26,10 +26,13 @@ func (p *ArticleController) ArticleList() {
 	page := p.Ctx.Input.Param(":page")
 	pg, _ := strconv.Atoi(page)
 	count := a.GetAllCount()
-	a.GetAllArticleByPage(&r, 10, pg)
-	Page := a.PageUtil(count, pg, 10, r)
+	pageSize := 10
+	a.GetAllArticleByPage(&r, pageSize, pg)
+	Page := a.PageUtil(count, pg, pageSize, r)
 	// assign到页面
 	p.Data["Page"] = Page
+	p.Data["ACount"] = count
+	p.Data["APageSize"] = pageSize
 	// 显示文章列表页
 	p.AdminCommTpl("article/list.html", "文章列表")
 }
@@ -101,7 +104,7 @@ func (p *ArticleController) ArticleCreate() {
 			models.ArticleTag{}.ArticleTagAdd(&at)
 
 			// 初始化搜索数据，用于前台搜索
-			p.initSearchData()
+			p.InitSearchData()
 
 			// 提示并跳转
 			p.ReturnJson("添加成功！", "/admin/article/list/1")
@@ -226,7 +229,7 @@ func (p *ArticleController) ArticleEdit() {
 			models.ArticleTag{}.UpdateArticleTagById(a.ID, tagIds)
 
 			// 初始化搜索数据，用于前台搜索
-			p.initSearchData()
+			p.InitSearchData()
 
 			// 提示并跳转
 			p.ReturnJson("编辑成功！", "/admin/article/editindex/"+strconv.Itoa(id))
@@ -250,7 +253,7 @@ func (p *ArticleController) ArticleDelete() {
 			models.ArticleTag{}.DeleteArticleTagById(aid.Id)
 
 			// 初始化搜索数据，用于前台搜索
-			p.initSearchData()
+			p.InitSearchData()
 
 			p.ReturnJsonCode("删除成功！")
 		} else {

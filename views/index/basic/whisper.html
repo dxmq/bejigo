@@ -1,0 +1,69 @@
+<div class="layout-l">
+ <div class="content_container">
+     {{range .Page.List}}
+   <div class="post">
+    <div class="post-meta">
+     <p><span class="date">{{date .CreatedAt "Y-m-d H:i"}}</span>|{{.UserName}}</p>
+    </div>
+    <div class="post-content" >
+        <a href="/whisper/{{.ID}}"><p>{{.Whisper}}</p></a>
+    </div>
+   </div>
+    {{end}}
+     {{if gt .WCount .WPageSize}}
+     <nav class="page-navigator">
+    <!--分页-->
+         <div class="page-container">
+            <ul id="page"></ul>
+         </div>
+     </nav>
+     {{end}}
+  </div>
+ </div>
+<script src="/static/lib/bootstrap-paginator/lib/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/lib/bootstrap-paginator/src/bootstrap-paginator.js"></script>
+<script type="text/javascript">
+ var p = $("#page");
+ $(function () {
+  var options = {
+   currentPage: {{.Page.PageNo}},
+   totalPages: '{{.Page.TotalPage}}',
+   bootstrapMajorVersion: 3,
+   numberOfPages: '{{.Page.TotalPage}}', //设置控件显示的页码数
+   useBootstrapTooltip: false,//是否显示tip提示框
+   size: "small",
+   tooltipTitles: function (type, page, current) {
+    switch (type) {
+     case "first":
+      return "首页";
+     case "prev":
+      return "上一页";
+     case "next":
+      return "下一页";
+     case "last":
+      return "尾页";
+     case "page":
+      return (page === current) ? "当前是第 " + page + "页" : "去往第 " + page + "页";
+    }
+   },
+   itemTexts:function(type,page, current){//文字翻译可有可无
+    switch (type) {
+     case "first":
+      return "首页";
+     case "prev":
+      return "上一页";
+     case "next":
+      return "下一页";
+     case "last":
+      return "尾页";
+     case "page":
+      return page;
+    }
+   },
+   onPageClicked: function(e,originalEvent,type,page){
+    window.location.href = "/whisper/page/" + page
+   },
+  };
+  p.bootstrapPaginator(options);
+ });
+</script>

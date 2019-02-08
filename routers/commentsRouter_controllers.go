@@ -54,6 +54,15 @@ func init() {
 
 	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
 		beego.ControllerComments{
+			Method:           "IndexPage",
+			Router:           `/page/:id`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
+		beego.ControllerComments{
 			Method:           "Page",
 			Router:           `/page/:pageAlias`,
 			AllowHTTPMethods: []string{"get"},
@@ -65,6 +74,24 @@ func init() {
 		beego.ControllerComments{
 			Method:           "Tags",
 			Router:           `/tags/:id`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
+		beego.ControllerComments{
+			Method:           "WhisperDetail",
+			Router:           `/whisper/:id`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["bejigo/controllers:IndexController"] = append(beego.GlobalControllerRouter["bejigo/controllers:IndexController"],
+		beego.ControllerComments{
+			Method:           "Whisper",
+			Router:           `/whisper/page/:pageId`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,

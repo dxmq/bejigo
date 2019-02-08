@@ -44,7 +44,7 @@ func (ctx *CategoryController) CategoryCreate() {
 		ctx.About500(syserrors.New("添加失败！", err))
 	}
 	// 初始化搜索数据，用于前台搜索
-	ctx.initSearchData()
+	ctx.InitSearchData()
 
 	ctx.ReturnJson("添加成功", "/admin/category/list")
 }
@@ -83,7 +83,7 @@ func (ctx *CategoryController) CategoryEdit() {
 	}
 
 	// 初始化搜索数据，用于前台搜索
-	ctx.initSearchData()
+	ctx.InitSearchData()
 
 	ctx.ReturnJson("编辑成功！", "/admin/category/list")
 }
@@ -106,7 +106,7 @@ func (ctx *CategoryController) CategoryDelete() {
 		err1 := models.Category{}.CategoryDeleteById(c.Id)
 		if err1 == nil { // 如果没有错的话
 			// 初始化搜索数据，用于前台搜索
-			ctx.initSearchData()
+			ctx.InitSearchData()
 
 			ctx.ReturnJsonCode("删除成功")
 		} else {

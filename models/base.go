@@ -3,8 +3,10 @@ package models
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"io"
 	"os"
 )
 
@@ -23,7 +25,7 @@ func init() {
 	if err != nil {
 		panic("连接数据库失败")
 	}
-	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{}, &SinglePage{}, &System{})
+	db.AutoMigrate(&User{}, &Tag{}, &Category{}, &ArticleTag{}, &Article{}, &Link{}, &SinglePage{}, &System{}, &Whisper{})
 	// 如果user数据表里边没有数据，新增一条user记录
 	if err := db.Model(&User{}).Count(&count).Error; err == nil && count == 0 {
 		password := GetMd5String("123456")
@@ -80,7 +82,15 @@ func init() {
 		})
 	}
 
+	// 初始化whisper
+	if err := db.Model(&Whisper{}).Count(&count).Error; err == nil && count == 0 {
+		db.Create(&Whisper{
+			UserId:  1,
+			Whisper: "人各有命，上天注定",
+		})
+	}
 	InitArticle()
+	InitSearchData() // 初始化搜索数据
 	InitSinglePage()
 }
 
@@ -181,4 +191,15 @@ func GetMd5String(s string) string {
 	h := md5.New()
 	h.Write([]byte(s))
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+// 初始化搜索数据，用于前台搜索
+func InitSearchData() {
+	var searchData []Search
+	Article{}.GetArticleDataForSearch(&searchData)
+	//content, err := json.MarshalIndent(a, "", "")
+	content, _ := json.Marshal(searchData)
+	fileName := "./static/index/js/searchdata/content.json.js"
+	f, _ := os.Create(fileName)
+	io.WriteString(f, string(content))
 }

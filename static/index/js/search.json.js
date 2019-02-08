@@ -21,7 +21,7 @@
     function loadData(success) {
         if (!searchData) {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/static/index/js/content.json.js', true);
+            xhr.open('GET', '/static/index/js/searchdata/content.json.js', true);
             xhr.onload = function() {
                 if (this.status >= 200 && this.status < 300) {
                     var res = JSON.parse(this.response||this.responseText);

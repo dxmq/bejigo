@@ -4,21 +4,21 @@
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
             <li class="active">
-                <i class="fa fa-book"></i>&nbsp;文章管理
+                <i class="fa fa-weixin"></i>&nbsp;轻语管理
             </li>
-            <li>文章列表</li>
+            <li>轻语列表</li>
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
     <!-- Page Body -->
     <div class="page-body">
-        <a href="/admin/article/addindex" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;文章添加</a>
+        <a href="/admin/whisper/addindex" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;轻语添加</a>
         <div class="row">
             <div class="col-xs-12">
                 <div class="widget">
                     <div class="widget-header">
-                        <span class="widget-caption">文章列表</span>
-                        {{if gt .ACount .APageSize}}
+                        <span class="widget-caption">轻语列表</span>
+                        {{if gt .WCount .WPageSize}}
                         <div class="widget-buttons">
                             <!--分页-->
                             <ul id='page'></ul>
@@ -30,32 +30,24 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>标题</th>
-                                <th>作者</th>
-                                <th>分类</th>
+                                <th>用户</th>
+                                <th>轻语内容</th>
                                 <th>添加时间</th>
                                 <th>更新时间</th>
-                                <th>是否显示</th>
-                                <th>是否置顶</th>
-                                <th>浏览数</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             {{range .Page.List}}
-                                <tr id="article_tr_{{.ID}}">
+                                <tr id="whisper_tr_{{.ID}}">
                                     <td>{{.ID}}</td>
-                                    <td>{{.Title}}</td>
-                                    <td>{{.Author}}</td>
-                                    <td>{{.CategoryName}}</td>
-                                    <td>{{date .CreatedAt "Y:m:d H:i:s"}}</td>
-                                    <td>{{date .UpdatedAt "Y:m:d H:i:s"}}</td>
-                                    <td>{{if eq 1 .IsShow}}是{{else}}否{{end}}</td>
-                                    <td>{{if eq 1 .IsTop}}是{{else}}否{{end}}</td>
-                                    <td>{{.Views}}</td>
+                                    <td>{{.UserName}}</td>
+                                    <td>{{.Whisper}}</td>
+                                    <td>{{date .CreatedAt "Y-m-d H:i"}}</td>
+                                    <td>{{date .UpdatedAt "Y-m-d H:i"}}</td>
                                     <td>
-                                        <a href="/admin/article/editindex/{{.ID}}" class="btn btn-azure btn-xs">编辑</a>
-                                        <a href="#" class="btn btn-danger btn-xs article-del" dataid="{{.ID}}">删除</a>
+                                        <a href="/admin/whisper/editindex/{{.ID}}" class="btn btn-azure btn-xs">编辑</a>
+                                        <a href="#" class="btn btn-danger btn-xs whisper-del" dataid="{{.ID}}">删除</a>
                                     </td>
                                 </tr>
                             {{end}}
@@ -71,14 +63,13 @@
 </div>
 <!-- /Page Content -->
 <script src="/static/lib/bootstrap-paginator/lib/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/static/lib/bootstrap-paginator/src/bootstrap-paginator-admin.js"></script>
+<script type="text/javascript" src="/static/lib/bootstrap-paginator/src/bootstrap-paginator.js"></script>
 <script type="text/javascript">
     var p = $("#page");
         $(function () {
             var options = {
                 currentPage: {{.Page.PageNo}},
                 totalPages: '{{.Page.TotalPage}}',
-                //pageUrl: '/admin/article/list',
                 bootstrapMajorVersion: 3,
                 numberOfPages: 5, //设置控件显示的页码数
                 useBootstrapTooltip: false,//是否显示tip提示框
@@ -112,7 +103,7 @@
                     }
                 },
                 onPageClicked: function(e,originalEvent,type,page){
-                    window.location.href = "/admin/article/list/" + page
+                    window.location.href = "/admin/whisper/list/" + page
                 },
             };
             p.bootstrapPaginator(options);
@@ -120,21 +111,21 @@
 </script>
 <script>
     $(function () {
-        $(".article-del").click(function () {
+        $(".whisper-del").click(function () {
             var id = $(this).attr("dataid");
             layer.confirm("确定要删除吗？", {
                 icon: 3,
-                title: "删除文章"
+                title: "删除轻语"
             }, function (index) {
                 layer.close(index);
                 $.ajax({
-                    url: "/admin/article/delete",
+                    url: "/admin/whisper/delete",
                     type: "post",
                     data: '{"id": "'+id+'"}',
                     dataType: "json",
                     success: function (data) {
                         if (data.code === 0) {
-                            var result = $("#article_tr_" + id).remove();
+                            var result = $("#whisper_tr_" + id).remove();
                             if (result) {
                                 layer.msg(data.msg, {
                                     icon: 6,
@@ -145,7 +136,7 @@
                             layer.open({
                                 icon: 5,
                                 anim: 6,
-                                title: "删除文章",
+                                title: "删除轻语",
                                 content: data.msg
                             });
                         }
@@ -153,7 +144,7 @@
                         layer.open({
                             icon: 5,
                             anim: 6,
-                            title: "删除文章",
+                            title: "删除轻语",
                             content: "网络错误！"
                         });
                     }

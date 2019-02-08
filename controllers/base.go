@@ -155,7 +155,7 @@ func (p *BaseController) SubString(s string, pos, length int) string {
 }
 
 // 初始化搜索数据，用于前台搜索
-func (p *BaseController) initSearchData() {
+func (p *BaseController) InitSearchData() {
 	var searchData []models.Search
 	models.Article{}.GetArticleDataForSearch(&searchData)
 	//content, err := json.MarshalIndent(a, "", "")
@@ -190,8 +190,17 @@ func (p *BaseController) IndexCommTpl(method, tpl, sectionTpl, pageAlias, pageTi
 	models.System{}.GetSystem(&st)
 	p.Data["SystemData"] = st
 
+	// 取出轻语
+	var w []models.Whisper
+	models.Whisper{}.GetNewWhisper(7, &w)
+	p.Data["NewWhisper"] = w
+
 	if method != "Page" {
-		p.Data["url"] = beego.URLFor("IndexController." + method)
+		if method != "whisper" {
+			p.Data["url"] = beego.URLFor("IndexController." + method)
+		} else {
+			p.Data["url"] = "/" + method
+		}
 	} else {
 		p.Data["url"] = pageAlias
 	}

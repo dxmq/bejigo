@@ -5,14 +5,15 @@ import (
 	_ "bejigo/models"
 	_ "bejigo/routers"
 	"encoding/gob"
-	"fmt"
 	"github.com/astaxie/beego"
 	"strings"
+	"unicode/utf8"
 )
 
 func main() {
 	initSession()
 	StrReplace()
+	StrLen()
 	beego.Run()
 }
 
@@ -30,6 +31,15 @@ func StrReplace() {
 		return strings.Replace(str, old, new, -1)
 	})
 	if err != nil {
-		fmt.Println(err)
+		beego.Info(err)
+	}
+}
+
+func StrLen() {
+	err := beego.AddFuncMap("strLen", func(str string) int {
+		return utf8.RuneCountInString(str)
+	})
+	if err != nil {
+		beego.Info(err)
 	}
 }

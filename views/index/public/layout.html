@@ -35,6 +35,7 @@
         <div id="nav-menu">
             <a href="/" {{if eq "/" .url}}class="current"{{end}}><i class="fa fa-home"> 首页</i></a>
             <a href="/archives" {{if eq "/archives" .url}}class="current"{{end}}><i class="fa fa-archive"> 归档</i></a>
+            <a href="/whisper/page/1" {{if eq "/whisper" .url}}class="current"{{end}}><i class="fa fa-weixin"> 轻语</i></a>
             {{range .PagesInfo}}
             <a href="/page/{{.PageAlias}}" {{if eq  .PageAlias $.url}}class="current" {{end}}><i class="{{.PageIconClass}}"> {{.PageName}}</i></a>
             {{end}}
@@ -78,6 +79,16 @@
                     <ul class="post-list">
                         {{range .NewArticle}}
                             <li class="post-list-item"><code><a class="post-list-link" href="/detail/{{.ID}}">{{.Title}}</a></code></li>
+                        {{end}}
+                    </ul>
+                </div>
+                <div class="widget">
+                    <div class="widget-title">
+                        <code><i class="fa fa-weixin"> 轻语</i></code>
+                    </div>
+                    <ul class="post-list">
+                        {{range .NewWhisper}}
+                            <li class="post-list-item"><code><a class="post-list-link" href="/whisper/{{.ID}}">{{.Whisper}}</a></code></li>
                         {{end}}
                     </ul>
                 </div>

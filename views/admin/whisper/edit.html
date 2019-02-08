@@ -4,10 +4,10 @@
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
             <li class="active">
-                <a href="/admin/category/list"><i class="fa fa-paperclip"></i>&nbsp;分类管理</a>
+                <a href="/admin/link/list/1"> <i class="fa fa-weixin"></i>&nbsp;轻语管理</a>
             </li>
             <li>
-                分类添加
+                轻语修改
             </li>
         </ul>
     </div>
@@ -18,20 +18,21 @@
             <div class="col-xs-12">
                 <div class="widget radius-bordered">
                     <div class="widget-header bordered-bottom bordered-themeprimary">
-                        <span class="widget-caption">分类添加</span>
+                        <span class="widget-caption">轻语修改</span>
                     </div>
                     <div class="widget-body">
                         <form class="form-horizontal">
+                            <input type="hidden" name="user_id" value="{{.Whisper.UserId}}">
+                            <input type="hidden" name="id" value="{{.Whisper.ID}}">
                             <div class="form-group">
-                                <label for="category_name" class="col-sm-2 control-label no-padding-right">分类名称</label>
+                                <label for="whisper" class="col-sm-2 control-label no-padding-right">轻语</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="category_name" placeholder="分类名称" name="category_name"/>
-                                    <p class="help-block">请输入分类名称</p>
+                                    <input type="text" class="form-control" id="whisper" name="whisper" value="{{.Whisper.Whisper}}"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="button" class="btn btn-primary" id="CategoryCreate">添加</button>
+                                    <button type="button" class="btn btn-primary" id="WhisperEdit">修改</button>
                                 </div>
                             </div>
                         </form>
@@ -46,14 +47,14 @@
 <script src="/static/admin/js/jquery.min.js"></script>
 <script>
     $(function () {
-       $("#CategoryCreate").click(function () {
+       $("#WhisperEdit").click(function () {
            $.ajax({
-               url: "/admin/category/create",
+               url: "/admin/whisper/edit",
                type: "post",
                data: $("form").serialize(),
                dataType: "json",
                success: function (data) {
-                   if (data.code == 0) {
+                   if (data.code === 0) {
                        layer.msg(data.msg, {
                            icon: 6,
                            time: 1000
@@ -64,7 +65,7 @@
                        layer.open({
                            icon: 5,
                            anim: 6,
-                           title: "标签添加",
+                           title: "轻语修改",
                            content: data.msg
                        })
                    }
