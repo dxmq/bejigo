@@ -37,7 +37,7 @@
             <a href="/archives" {{if eq "/archives" .url}}class="current"{{end}}><i class="fa fa-archive"> 归档</i></a>
             <a href="/whisper/page/1" {{if eq "/whisper" .url}}class="current"{{end}}><i class="fa fa-weixin"> 轻语</i></a>
             {{range .PagesInfo}}
-            <a href="/page/{{.PageAlias}}" {{if eq  .PageAlias $.url}}class="current" {{end}}><i class="{{.PageIconClass}}"> {{.PageName}}</i></a>
+            <a href="/{{.PageAlias}}" {{if eq  .PageAlias $.url}}class="current" {{end}}><i class="{{.PageIconClass}}"> {{.PageName}}</i></a>
             {{end}}
         </div>
         <div id="search-form">

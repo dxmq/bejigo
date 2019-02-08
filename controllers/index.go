@@ -163,7 +163,7 @@ func (c *IndexController) Tags() {
 }
 
 //某个页面
-// @router /page/:pageAlias [get]
+// @router /:pageAlias [get]
 func (c *IndexController) Page() {
 	// pageName
 	pageAlias := c.Ctx.Input.Param(":pageAlias")
