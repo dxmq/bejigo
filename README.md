@@ -1,37 +1,50 @@
 # bejigo
 
 #### 介绍
-golang写的博客程序
+Golang写的博客系统，美观、优雅
+
+#### 特点
+- 使用 `hexo` BlueLake主题，简洁、美观
+- 采用 `editormd` markdown编辑器，专注于写作
+- 引入来必力评论系统
+
+#### 演示
+- 前台：[前台](http://lxsuying.com)
+- 后台：[后台](http://lxsuying.com/admin/login/index) (用户名：glimmer,密码：123456)
 
 #### 软件架构
-软件架构说明
-
+基于beego框架，数据库采用sqlite3，安装简单，无需配置数据库
 
 #### 安装教程
+1、安装所需库
+- go get github.com/astaxie/beego
+- go get github.com/beego/bee
+- go get github.com/mattn/go-sqlite3
 
-1. xxxx
-2. xxxx
-3. xxxx
+2、克隆项目到 `$GOPATH/src` 目录
+- cd $GOPATH/src/
+- git clone https://github.com/dxmq/bejigo.git
 
-#### 使用说明
+3、测试是否有错误
+- cd bejigo
+- bee run 看是否出错
 
-1. xxxx
-2. xxxx
-3. xxxx
+4、编译
+- go build main.go
 
-#### 参与贡献
+5、改运行模式为生产模式，也可以不改变
+- vim bejigo/conf/app.conf
+- runmode = "prod"
+> 注意：项目使用了注解路由，如果开启了生产模式，`router/commentsRouter_controllers.go` 将不再自动生成
 
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+6、将应用部署在后端
+- 在bejigo目录下 `nohup ./main&`
 
+7、`nginx` 部署
+参考 https://beego.me/docs/deploy/nginx.md
 
-#### 码云特技
+#### 预览
+![](https://images.gitee.com/uploads/images/2019/0208/215513_91b9e3f7_2666020.png)
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+后台：
+![](https://images.gitee.com/uploads/images/2019/0208/215108_673e409e_2666020.png)
