@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -81,10 +82,11 @@ func (p *ArticleController) ArticleCreate() {
 	a.CategoryId, _ = strconv.Atoi(categoryId)
 	a.IsShow = isShow
 	a.IsTop = isTop
-	a.Summary = summary
 	a.Content = content
 	a.HtmlContent = htmlContent
-
+	a.Summary = summary
+	r := regexp.MustCompile(`!\[.*]\(.*\)`)
+	summary = r.ReplaceAllString(summary, "(picture_"+p.GetRandomString(5)+")")
 	// 调用模型完成添加操作
 	err := models.Article{}.ArticleAdd(&a)
 	if err != nil {
@@ -203,6 +205,8 @@ func (p *ArticleController) ArticleEdit() {
 	htmlContent = beego.Htmlquote(htmlContent) // html转义
 	content := p.GetMustString("content", "内容不能为空！")
 	summary := beego.Substr(content, 0, 150)
+	r := regexp.MustCompile(`!\[.*]\(.*\)`)
+	summary = r.ReplaceAllString(summary, "(picture_"+p.GetRandomString(5)+")")
 
 	// 赋值给结构体
 	var a models.Article
