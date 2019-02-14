@@ -208,6 +208,9 @@ func (p *ArticleController) ArticleEdit() {
 	r := regexp.MustCompile(`!\[.*]\(.*\)`)
 	summary = r.ReplaceAllString(summary, "(picture_"+p.GetRandomString(5)+")")
 
+	// 取出阅读量
+	var view models.Views
+	models.Article{}.GetViews(id, &view)
 	// 赋值给结构体
 	var a models.Article
 	a.ID = uint(id)
@@ -219,6 +222,7 @@ func (p *ArticleController) ArticleEdit() {
 	a.HtmlContent = htmlContent
 	a.Content = content
 	a.Summary = summary
+	a.Views = view.Views
 
 	// 调用模型完成更新操作
 	err := models.Article{}.UpdateArticleById(&a)

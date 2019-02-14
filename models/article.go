@@ -65,6 +65,15 @@ type Page struct {
 	List       interface{}
 }
 
+type Views struct {
+	Views int
+}
+
+// 取出阅读量
+func (p Article) GetViews(id int, views *Views) {
+	db.Table("articles").Where("id = ?", id).Select("views").Scan(&views)
+}
+
 // 返回分页数据
 func (p Article) PageUtil(count int, pageNo int, pageSize int, list interface{}) Page {
 	tp := count / pageSize
