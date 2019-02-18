@@ -28,6 +28,10 @@ func init() {
 // 显示登录页面
 // @router /admin/login/index [get]
 func (p *UserController) LoginIndex() {
+	if p.GetSession(SESSION_USER_KEY) != nil {
+		p.Redirect("/admin/index", 301)
+	}
+
 	var st models.System
 	models.System{}.GetSectionSystem(&st)
 	p.Data["SystemData"] = st

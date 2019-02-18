@@ -118,7 +118,7 @@ func (p *BaseController) GetMustAndInlen(key, nullErrNotice, overLenErrNotice st
 // 必须登录
 func (p *BaseController) MustLogin() {
 	if !p.IsLogin { // 如果没登录，提示错误
-		p.Ctx.Redirect(302, "/admin/login/index")
+		p.Ctx.Redirect(301, "/admin/login/index")
 		return
 	}
 }
