@@ -29,7 +29,7 @@ func init() {
 // @router /admin/login/index [get]
 func (p *UserController) LoginIndex() {
 	if p.GetSession(SESSION_USER_KEY) != nil {
-		p.Redirect("/admin/index", 301)
+		p.Redirect("/admin/index", 302)
 	}
 
 	var st models.System

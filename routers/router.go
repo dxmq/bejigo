@@ -14,6 +14,7 @@ func init() {
 
 	// 后台首页
 	beego.Router("/admin/index", &controllers.AdminController{}, "get:Index")
+	beego.Router("/admin", &controllers.AdminController{}, "get:Admin")
 
 	// 分类列表
 	beego.Router("/admin/category/list", &controllers.CategoryController{}, "get:CategoryList")
