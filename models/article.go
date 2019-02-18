@@ -135,7 +135,7 @@ type NewArticle struct {
 
 // 取出最新的文章
 func (p Article) GetNewArticle(number int, na *[]NewArticle) {
-	db.Model(&p).Order("created_at desc").Select("id, title").Limit(5).Scan(&na)
+	db.Model(&p).Order("created_at desc").Select("id, title").Limit(number).Scan(&na)
 }
 
 // 取出归档
