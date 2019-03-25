@@ -8,9 +8,8 @@ Golang写的博客系统，美观、优雅
 - 采用 `editormd` markdown编辑器，专注于写作
 - 引入来必力评论系统
 
-#### 演示
-- 前台：[前台](http://lxsuying.com)
-- 后台：[后台](http://lxsuying.com/admin/login/index) (用户名：glimmer,密码：123456)
+#### 主页
+http://lxsuying.com
 
 #### 软件架构
 基于beego框架，数据库采用sqlite3，安装简单，无需配置数据库
@@ -42,9 +41,3 @@ Golang写的博客系统，美观、优雅
 
 7、`nginx` 部署
 参考 https://beego.me/docs/deploy/nginx.md
-
-#### 预览
-![](https://images.gitee.com/uploads/images/2019/0208/215513_91b9e3f7_2666020.png)
-
-后台：
-![](https://images.gitee.com/uploads/images/2019/0208/215108_673e409e_2666020.png)
