@@ -240,9 +240,9 @@ func (p *ArticleController) ArticleEdit() {
 			p.InitSearchData()
 
 			// 提示并跳转
-			p.ReturnJson("编辑成功！", "/admin/article/editindex/"+strconv.Itoa(id))
+			p.ReturnJson("编辑成功！", "/admin/article/list/1")
 		} else {
-			p.ReturnJson("编辑成功！", "/admin/article/editindex/"+strconv.Itoa(id))
+			p.ReturnJson("编辑成功！", "/admin/article/list/1")
 		}
 	}
 }
