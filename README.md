@@ -1,18 +1,10 @@
 # bejigo
 
 #### 介绍
-Golang写的博客系统，美观、优雅
-
-#### 特点
-- 使用 `hexo` BlueLake主题，简洁、美观
-- 采用 `editormd` markdown编辑器，专注于写作
-- 引入来必力评论系统
-
-#### 主页
-http://lxsuying.com
+基于Golang的博客系统
 
 #### 软件架构
-基于beego框架，数据库采用sqlite3，安装简单，无需配置数据库
+基于Beego框架，数据库采用sqlite3，安装简单，无需配置数据库
 
 #### 安装教程
 1、安装所需库
